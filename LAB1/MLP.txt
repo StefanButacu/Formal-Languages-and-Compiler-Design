@@ -1,0 +1,33 @@
+start:
+    integer A .
+    integer B .
+    my_special_write ( "A=" ) .
+    my_special_write ( "B=" ) .
+    my_special_read ( A ) .
+    my_special_read ( B ) .
+    while ( A <> B ) :
+        if A > B :
+            A := A - B .
+        if_not :
+            B := B - A .
+        end-if.
+    end-while.
+end.
+
+start:
+   const float pi = 3.14 .
+   float radius .
+   float perimeter .
+   my_special_write ( "Radius=" ) .
+   my_special_read ( radius ) .
+   perimeter := 2 * pi * radius
+   my_special_write ( "Perimeter=" ) .
+   my_special_write ( perimeter ) .
+   float aria .
+   aria := pi * radius * radius .
+   my_special_write ( "Aria=" ) .
+   my_special_write ( aria ) .
+end.
+
+start:
+

@@ -1,0 +1,48 @@
+https://www.cs.ubbcluj.ro/~dana/LFTC/Resurse/activitati.htm
+
+de_aici_incepe
+	intreg A
+	citeste_mi (A).
+	daca A > 0.
+		scrie_mi (*un mesaj*).
+	daca_nu:
+		scrie_mi (A).
+	daca_se_termina
+aici_se_termina
+
+
+<program> -> 'de_aici_incepe' <lista_instructiuni> 'aici_se_termina'
+
+<lista_instructuni> -> <instr> '.' |  <instr> '.' <lista_instructiuni>
+
+<instr> -> <instr_cond> | <instr_io> | <instr_ciclare> | <instr_attr> | <declarare> 
+
+<instr_cond> -> 'daca' <lista_conditii> ':' <lista_instructiuni> 'daca_se_termina'
+
+<instr_cond> -> 'daca' <lista_conditii> ':' <lista_instructiuni> 'daca_nu' ':' <lista_instructiuni> 'daca_se_termina'
+
+<lista_conditii> -> <conditie> | <conditie> <op_logic> <lista_conditii> 
+
+<conditie> -> <expr> <op_rel> <expr> 
+
+<expr> -> <operand> | <operator><op_artimetic><expr>
+
+<operand> -> <var> | <const> 
+
+<op_logic> -> 'si', 'sau', 'xor'
+
+<op_rel> -> '<', '>', '>=', '<=', 
+
+<op_aritm> -> +,-,/,$
+
+<var> -> ^[a-zA-Z]$
+
+<const> -> ^[+-]?([1-9][0-9])
+
+<const> -> ^'*'[^*]*'*'$ 
+
+<declarare> -> <tip> <lista_var>
+<lista_var> -> <var> | <var> ';' <lista_var>
+
+
+<tip> -> 'intreg', 'text'

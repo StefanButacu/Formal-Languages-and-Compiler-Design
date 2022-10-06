@@ -30,4 +30,17 @@ start:
 end.
 
 start:
-
+    integer n .
+    my_special_write ( "n=" ) .
+    my_special_read ( n ) .
+    integer i := 0 .
+    integer sum := 0 .
+    integer x .
+    while ( i < n ) :
+        my_special_read ( x ) .
+        sum := sum + x .
+        i := i + 1 .
+    end-while .
+    my_special_write ( "sum=" ) .
+    my_special_read ( sum ) .
+end.

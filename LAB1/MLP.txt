@@ -12,22 +12,25 @@ start:
             B := B - A .
         end-if.
     end-while.
+    my_special_write ( "CMMDC=" ) .
+    my_special_write ( A ) .
 end.
 
 start:
-   const float pi = 3.14 .
-   float radius .
-   float perimeter .
+   const double pi = 3.14 .
+   double radius .
+   double perimeter .
    my_special_write ( "Radius=" ) .
    my_special_read ( radius ) .
    perimeter := 2 * pi * radius
    my_special_write ( "Perimeter=" ) .
    my_special_write ( perimeter ) .
-   float aria .
+   double aria .
    aria := pi * radius * radius .
    my_special_write ( "Aria=" ) .
    my_special_write ( aria ) .
 end.
+/// NEW LINE CHAR
 
 start:
     integer n .
@@ -42,5 +45,5 @@ start:
         i := i + 1 .
     end-while .
     my_special_write ( "sum=" ) .
-    my_special_read ( sum ) .
+    my_special_write ( sum ) .
 end.

@@ -33,7 +33,7 @@
 <operand> -> <ID> | <const>
 <op_rel> -> '<', '>', '>=', '<=', <>
 <op_aritm> -> +,-,*,/
-
+<op_logic> -> '&&', '||'
 <instr_attr> -> <ID> <op_atribuire> <expr>
 
 <instr_ciclare> -> 'while' '(' <lista_conditii> ')' <delimitator> <lista_instr> 'end-while'

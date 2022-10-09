@@ -2,7 +2,9 @@ start :
     integer A .
     integer B .
     my_special_write ( "A=" ) .
+    my_special_write ( "\n" ) .
     my_special_write ( "B=" ) .
+    my_special_write ( "\n" ) .
     my_special_read ( A ) .
     my_special_read ( B ) .
     while ( A <> B ) :
@@ -23,10 +25,12 @@ start :
    my_special_write ( "Radius=" ) .
    my_special_read ( radius ) .
    perimeter := 2 * pi * radius .
+   my_special_write ( "\n" ) .
    my_special_write ( "Perimeter=" ) .
    my_special_write ( perimeter ) .
    double aria .
    aria := pi * radius * radius .
+   my_special_write ( "\n" ) .
    my_special_write ( "Aria=" ) .
    my_special_write ( aria ) .
 end.
@@ -44,6 +48,7 @@ start :
         sum := sum + x .
         i := i + 1 .
     end-while .
+    my_special_write ( "\n" ) .
     my_special_write ( "sum=" ) .
     my_special_write ( sum ) .
 end.
@@ -54,3 +59,28 @@ typedef masina :
 end-typedef .
 
 masina m1 .
+
+
+//3.1 Unul dintre programe contine doua erori care sunt in acelasi timp
+      erori in limbajul original (pentru care MLP defineste un subset)
+
+start :
+    integer 1010ab .            <- eroare identificator
+    if a > b :                  <- eroare lipsa parantzee
+        my_special_write ( a ) .
+    end-if.
+end.
+
+//3.2 Al doilea program contine doua erori conform MLP, dar care nu sunt
+    erori in limbajul original. Se cere ca acesta sa fie compilat si
+    executat in limbajul original ales.
+
+start:
+    integer a := 1 .
+    a += 1 .                               +=
+    my_special_write ( a ) .
+    integer var213421 .                     id
+    if ( a ) :                              cond
+        my_special_write ( "a != 0" ) .
+    end-if.
+end.

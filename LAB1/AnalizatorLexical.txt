@@ -1,0 +1,39 @@
+<program> -> 'start :' <lista_instr> 'end' <delimitator>
+<lista_instr> -> <instr> | <instr> <delimitator> <lista_instr>
+
+<delimitator> -> ':' | '.'
+<instr> -> <instr_cond> | <instr_io> | <instr_ciclare> | <instr_attr> | <instr_declarare> | <instr_declarare_tip> <delimitator>
+<instr_declarare> -> <tip> <ID>
+<instr_declarare> -> <tip> <ID> <operator_atribuire> <const>
+<operator_atribuire> -> ':='
+
+
+<tip> -> 'integer', 'float', 'boolean'
+<tip> -> <ID_TIP>
+<instr_declarare_tip> ->
+        'typedef' <ID_TIP> <delimitator> <lista_declarari> 'end-typedef'
+<ID_TIP> -> ^[a-zA-Z]+$
+
+
+<lista_declarari> -> <instr_declarare> | <instr_declarare> <lista_declarari>
+
+<const> -> ^[+-]?([1-9]*[0-9])(\.[0-9]+)?
+<const> -> ^"[^"]*"$
+<ID> -> ^[a-zA-Z]+$
+
+<instr_io> -> 'my_special_write (' <const> ')'
+<instr_io> -> 'my_special_write (' <ID> ')'
+<instr_io> -> 'my_special_read (' <ID> ')'
+
+<instr_cond> -> 'if' <lista_conditii> <delimitator> <lista_instr> 'end-if'
+<instr_cond> -> 'if' <lista_conditii> <delimitator> <lista_instr> 'if-not' <delimitator> <lista_instr> 'end-if'
+<lista_conditii> -> <conditie> | <conditie> <op_logic> <lista_conditii>
+<conditie> -> <expr> <op_rel> <expr>
+<expr> -> <operand> | <operand><op_artimetic><expr>
+<operand> -> <ID> | <const>
+<op_rel> -> '<', '>', '>=', '<=', <>
+<op_aritm> -> +,-,*,/
+
+<instr_attr> -> <ID> <op_atribuire> <expr>
+
+<instr_ciclare> -> 'while' '(' <lista_conditii> ')' <delimitator> <lista_instr> 'end-while'

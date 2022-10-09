@@ -1,4 +1,4 @@
-start:
+start :
     integer A .
     integer B .
     my_special_write ( "A=" ) .
@@ -16,13 +16,13 @@ start:
     my_special_write ( A ) .
 end.
 
-start:
-   const double pi = 3.14 .
+start :
+   double pi := 3.14 .
    double radius .
    double perimeter .
    my_special_write ( "Radius=" ) .
    my_special_read ( radius ) .
-   perimeter := 2 * pi * radius
+   perimeter := 2 * pi * radius .
    my_special_write ( "Perimeter=" ) .
    my_special_write ( perimeter ) .
    double aria .
@@ -32,7 +32,7 @@ start:
 end.
 /// NEW LINE CHAR
 
-start:
+start :
     integer n .
     my_special_write ( "n=" ) .
     my_special_read ( n ) .
@@ -47,3 +47,10 @@ start:
     my_special_write ( "sum=" ) .
     my_special_write ( sum ) .
 end.
+
+typedef masina :
+    integer viteza .
+    boolean isElectric
+end-typedef .
+
+masina m1 .

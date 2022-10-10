@@ -57,7 +57,6 @@ typedef masina :
     integer viteza .
     boolean isElectric
 end-typedef .
-
 masina m1 .
 
 
@@ -77,10 +76,8 @@ end.
 
 start:
     integer a := 1 .
-    a += 1 .                               +=
+    a += 1 .                               += - nu exista in mlp
     my_special_write ( a ) .
-    integer var213421 .                     id
-    if ( a ) :                              cond
-        my_special_write ( "a != 0" ) .
-    end-if.
+    integer var213421 .                     id - invalid pt mlp.
+
 end.

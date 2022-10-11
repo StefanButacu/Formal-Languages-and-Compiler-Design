@@ -8,7 +8,7 @@
 <operator_atribuire> -> ':='
 
 
-<tip> -> 'integer', 'float', 'boolean'
+<tip> -> 'integer', 'double', 'boolean'
 <tip> -> <ID_TIP>
 <instr_declarare_tip> ->
         'typedef' <ID_TIP> <delimitator> <lista_declarari> 'end-typedef'

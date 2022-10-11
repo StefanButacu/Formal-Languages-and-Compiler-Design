@@ -14,6 +14,7 @@ public class Sum {
             sum += x;
             i += 1;
         }
+        System.out.print("\n");
         System.out.print("sum=");
         System.out.print(sum);
 

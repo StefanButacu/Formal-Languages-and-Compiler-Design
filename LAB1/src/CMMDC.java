@@ -15,6 +15,7 @@ public class CMMDC {
             else
                 B -= A;
         }
+        System.out.print("\n");
         System.out.print("CMMDC=");
         System.out.print(A);
     }

@@ -13,6 +13,7 @@ public class Circle {
         System.out.print("Radius=");
         radius = sc.nextDouble();
         perimeter = 2 * PI * radius;
+        System.out.print("\n");
         System.out.print("Perimeter=");
         System.out.print(perimeter);
         aria = PI * radius * radius;

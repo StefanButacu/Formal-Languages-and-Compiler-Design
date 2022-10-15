@@ -4,11 +4,10 @@ import java.util.Scanner;
 public class Circle {
 
     public static void main(String[] args) {
-        Double PI = 3.14;
+        double PI = 3.14;
         Double radius;
-//        double Double;
-        Double perimeter;
-        Double aria;
+        double perimeter;
+        double aria;
         Scanner sc = new Scanner(System.in);
         System.out.print("Radius=");
         radius = sc.nextDouble();

@@ -1,18 +1,27 @@
-<program> -> 'start :' <lista_instr> 'end' <delimitator>
+<program> -> 'public class Main {
+        public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        ' <lista_instr> '}
+        }'
+
 <lista_instr> -> <instr> | <instr> <delimitator> <lista_instr>
 
-<delimitator> -> ':' | '.'
-<instr> -> <instr_cond> | <instr_io> | <instr_ciclare> | <instr_attr> | <instr_declarare> | <instr_declarare_tip> <delimitator>
-<instr_declarare> -> <tip> <ID>
-<instr_declarare> -> <tip> <ID> <operator_atribuire> <const>
-<operator_atribuire> -> ':='
-
-
-<tip> -> 'integer', 'double', 'boolean'
+<delimitator> -> ';' | '(' | ')' | '{' | '}'
+<instr> -> <instr_cond> | <instr_io> | <instr_ciclare> | <instr_attr> | <instr_declarare> | <instr_declarare_tip>
+<instr_declarare> -> <tip> <ID> <delimitator>
+<instr_declarare> -> <tip> <ID> <operator_atribuire> <const> <delimitator>
+<instr_declarare> -> <tip> <ID> <operator_atribuire> <operator_alocare_memorie> <tip> '()' <delimitator>
+<operator_atribuire> -> '='
+<operator_alocare_memorie> -> 'new'
+<tip> -> 'int', 'double', 'boolean'
 <tip> -> <ID_TIP>
 <instr_declarare_tip> ->
-        'typedef' <ID_TIP> <delimitator> <lista_declarari> 'end-typedef'
+        'public class' <ID_TIP> '{' <lista_declarari> '}'
 <ID_TIP> -> ^[a-zA-Z]+$
+
+???
+<accesare_camp_tip_definit> -> <ID_TIP>'.'<ID>
+???
 
 
 <lista_declarari> -> <instr_declarare> | <instr_declarare> <lista_declarari>
@@ -20,20 +29,23 @@
 <const> -> ^[+-]?([1-9]?[0-9]*)(\.[0-9]+)?
 <const> -> ^"[^"]*"$
 <ID> -> ^[a-zA-Z]+$
+<ID> -> <ID>.<ID>
 
-<instr_io> -> 'my_special_write (' <const> ')'
-<instr_io> -> 'my_special_write (' <ID> ')'
-<instr_io> -> 'my_special_read (' <ID> ')'
+<instr_io> -> 'System.out.println (' <const> ')' <delimitator>
+<instr_io> -> 'my_special_write (' <ID> ')' <delimitator>
+<instr_io> -> '<ID> <operator_atribuire> <scanner_read> <delimitator>
+<scanner_read> -> 'sc.nextInt()' | 'sc.nextDouble()' | 'sc.nextLine()'
 
-<instr_cond> -> 'if' <lista_conditii> <delimitator> <lista_instr> 'end-if'
-<instr_cond> -> 'if' <lista_conditii> <delimitator> <lista_instr> 'if-not' <delimitator> <lista_instr> 'end-if'
+
+<instr_cond> -> 'if (' <lista_conditii> ')' <delimitator> <lista_instr> <delimitator>
+<instr_cond> -> 'if (' <lista_conditii> ')' <delimitator> <lista_instr> <delimitator> 'else' <delimitator> <lista_instr> <delimitator>
 <lista_conditii> -> <conditie> | <conditie> <op_logic> <lista_conditii>
 <conditie> -> <expr> <op_rel> <expr>
 <expr> -> <operand> | <operand><op_artimetic><expr>
 <operand> -> <ID> | <const>
-<op_rel> -> '<', '>', '>=', '<=', <>
+<op_rel> -> '<', '>', '>=', '<=', '<>'
 <op_aritm> -> +,-,*,/
 <op_logic> -> '&&', '||'
-<instr_attr> -> <ID> <op_atribuire> <expr>
+<instr_attr> -> <ID> <op_atribuire> <expr> <delimitator>
 
-<instr_ciclare> -> 'while' '(' <lista_conditii> ')' <delimitator> <lista_instr> 'end-while'
+<instr_ciclare> -> 'while' '(' <lista_conditii> ')' <delimitator> <lista_instr> '<delimitator> '

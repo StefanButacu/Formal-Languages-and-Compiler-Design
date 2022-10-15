@@ -1,84 +1,94 @@
-start :
-    integer A .
-    integer B .
-    my_special_write ( "A=" ) .
-    my_special_write ( "\n" ) .
-    my_special_write ( "B=" ) .
-    my_special_write ( "\n" ) .
-    my_special_read ( A ) .
-    my_special_read ( B ) .
-    while ( A <> B ) :
-        if A > B :
-            A := A - B .
-        if_not :
-            B := B - A .
-        end-if.
-    end-while.
-   my_special_write ( "\n" ) .
-    my_special_write ( "CMMDC=" ) .
-    my_special_write ( A ) .
-end.
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner ( System.in ) ;
+        int A ;
+        int B ;
+        System.out.println ( "A=" ) ;
+        A = sc.nextInt ( ) ;
+        System.out.println ( "B=" ) ;
+        B = sc.nextInt ( ) ;
+        while ( A != B ) {
+            if ( A > B ) {
+                A = A - B ;
+            }
+            else {
+                B = B - A .
+            }
+        }
+        System.out.println ("Cmmdc = ") ;
+        System.out.println ( "A=");
+    }
+}
 
-start :
-   double pi := 3.14 .
-   double radius .
-   double perimeter .
-   my_special_write ( "Radius=" ) .
-   my_special_read ( radius ) .
-   perimeter := 2 * pi * radius .
-   my_special_write ( "\n" ) .
-   my_special_write ( "Perimeter=" ) .
-   my_special_write ( perimeter ) .
-   double aria .
-   aria := pi * radius * radius .
-   my_special_write ( "\n" ) .
-   my_special_write ( "Aria=" ) .
-   my_special_write ( aria ) .
-end.
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        double PI = 3.14 ;
+        double radius ;
+        double perimeter ;
+        double aria ;
+        System.out.println ( "Radius=" ) ;
+        radius = sc.nextDouble() ;
+        perimeter = 2 * PI * radius ;
+        System.out.println ("Perimeter=") ;
+        System.out.println (perimeter) ;
+        aria = PI * radius * radius ;
+        System.out.println ( "Aria=" ) ;
+        System.out.println ( aria ) ;
+    }
+
+}
 /// NEW LINE CHAR
 
-start :
-    integer n .
-    my_special_write ( "n=" ) .
-    my_special_read ( n ) .
-    integer i := 0 .
-    integer sum := 0 .
-    integer x .
-    while ( i < n ) :
-        my_special_read ( x ) .
-        sum := sum + x .
-        i := i + 1 .
-    end-while .
-    my_special_write ( "\n" ) .
-    my_special_write ( "sum=" ) .
-    my_special_write ( sum ) .
-end.
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in) ;
+        int n ;
+        System.out.println ( "n=" ) ;
+        n = sc.nextInt() ;
+        int i = 0 ;
+        int sum = 0 ;
+        int x ;
+        while ( i < n ) {
+            x = sc.nextInt() ;
+            sum = sum + x ;
+            i = i + 1 ;
+        }
+        System.out.println ("sum=");
+        System.out.print(sum);
+    }
+}
 
-typedef masina :
-    integer viteza .
-    boolean isElectric
-end-typedef .
-masina m1 .
+
+public static class Masina {
+    integer viteza ;
+    boolean isElectric ;
+}
+Masina m1 = new Masina() ;
 
 
 //3.1 Unul dintre programe contine doua erori care sunt in acelasi timp
       erori in limbajul original (pentru care MLP defineste un subset)
 
-start :
-    integer 1010ab .            <- eroare identificator
-    if a > b :                  <- eroare lipsa parantzee
-        my_special_write ( a ) .
-    end-if.
-end.
+public class Main{
+public static void main ( String[] args){
+    Scanner sc = new Scanner(System.in);
+    int 1010ab ;           <- eroare identificator
+    if a > b {                  <- eroare lipsa parantzee
+        System.out.println ( a ) ;
+    }
+}
 
 //3.2 Al doilea program contine doua erori conform MLP, dar care nu sunt
     erori in limbajul original. Se cere ca acesta sa fie compilat si
     executat in limbajul original ales.
 
-start:
-    integer a := 1 .
-    a += 1 .                               += - nu exista in mlp
-    my_special_write ( a ) .
-    integer var213421 .                     id - invalid pt mlp.
-
-end.
+public class Main {
+    public static void main(String [] args) {
+    Scanner sc = new Scanner(System.in);
+    int a = 1 ;
+    a += 1 ;                               += - nu exista in mlp
+    a = sc.nextInt() ;
+    int var213421 ;                    id - invalid pt mlp.
+    }
+}

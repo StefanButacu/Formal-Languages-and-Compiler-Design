@@ -1,5 +1,5 @@
 public class Main {
-    public static void main(String[] args) {
+    public static void main ( String[] args ) {
         Scanner sc = new Scanner ( System.in ) ;
         int A ;
         int B ;
@@ -12,55 +12,54 @@ public class Main {
                 A = A - B ;
             }
             else {
-                B = B - A .
+                B = B - A ;
             }
         }
-        System.out.println ("Cmmdc = ") ;
-        System.out.println ( "A=");
+        System.out.println ( "Cmmdc=" ) ;
+        System.out.println ( "A=" ) ;
     }
 }
 
 public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+    public static void main ( String[] args ) {
+        Scanner sc = new Scanner ( System.in ) ;
         double PI = 3.14 ;
         double radius ;
         double perimeter ;
         double aria ;
         System.out.println ( "Radius=" ) ;
-        radius = sc.nextDouble() ;
+        radius = sc.nextDouble ( ) ;
         perimeter = 2 * PI * radius ;
-        System.out.println ("Perimeter=") ;
-        System.out.println (perimeter) ;
+        System.out.println ( "Perimeter=" ) ;
+        System.out.println ( perimeter ) ;
         aria = PI * radius * radius ;
         System.out.println ( "Aria=" ) ;
         System.out.println ( aria ) ;
     }
 
 }
-/// NEW LINE CHAR
 
 public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in) ;
+    public static void main ( String[] args ) {
+        Scanner sc = new Scanner ( System.in ) ;
         int n ;
         System.out.println ( "n=" ) ;
-        n = sc.nextInt() ;
+        n = sc.nextInt ( ) ;
         int i = 0 ;
         int sum = 0 ;
         int x ;
         while ( i < n ) {
-            x = sc.nextInt() ;
+            x = sc.nextInt ( ) ;
             sum = sum + x ;
             i = i + 1 ;
         }
-        System.out.println ("sum=");
-        System.out.print(sum);
+        System.out.println ( "sum=" ) ;
+        System.out.println ( sum ) ;
     }
 }
 
 
-public static class Masina {
+public class Masina {
     integer viteza ;
     boolean isElectric ;
 }

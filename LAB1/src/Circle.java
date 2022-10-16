@@ -5,7 +5,7 @@ public class Circle {
 
     public static void main(String[] args) {
         double PI = 3.14;
-        Double radius;
+        double radius;
         double perimeter;
         double aria;
         Scanner sc = new Scanner(System.in);

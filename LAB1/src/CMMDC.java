@@ -2,8 +2,8 @@ import java.util.Scanner;
 
 public class CMMDC {
     public static void main(String[] args) {
-        Integer A;
-        Integer B;
+        int A;
+        int B;
         Scanner scanner = new Scanner(System.in);
         System.out.print("A=");
         A = scanner.nextInt();

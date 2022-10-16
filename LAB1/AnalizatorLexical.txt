@@ -14,10 +14,10 @@
 <operator_atribuire> -> '='
 <operator_alocare_memorie> -> 'new'
 <tip> -> 'int', 'double', 'boolean'
-<tip> -> <ID_TIP>
+<tip> -> <ID_TIP_CLASA>
 <instr_declarare_tip> ->
-        'public class' <ID_TIP> '{' <lista_declarari> '}'
-<ID_TIP> -> ^[a-zA-Z]+$
+        'public class' <ID_TIP_CLASA> '{' <lista_declarari> '}'
+<ID_TIP_CLASA> -> ^[A-Z][a-z]+$
 
 ???
 <accesare_camp_tip_definit> -> <ID_TIP>'.'<ID>
@@ -28,11 +28,11 @@
 
 <const> -> ^[+-]?([1-9]?[0-9]*)(\.[0-9]+)?
 <const> -> ^"[^"]*"$
-<ID> -> ^[a-zA-Z]+$
+<ID> -> ^[a-z]+$
 <ID> -> <ID>.<ID>
 
 <instr_io> -> 'System.out.println (' <const> ')' <delimitator>
-<instr_io> -> 'my_special_write (' <ID> ')' <delimitator>
+<instr_io> -> 'System.out.println' (' <ID> ')' <delimitator>
 <instr_io> -> '<ID> <operator_atribuire> <scanner_read> <delimitator>
 <scanner_read> -> 'sc.nextInt()' | 'sc.nextDouble()' | 'sc.nextLine()'
 
@@ -43,7 +43,7 @@
 <conditie> -> <expr> <op_rel> <expr>
 <expr> -> <operand> | <operand><op_artimetic><expr>
 <operand> -> <ID> | <const>
-<op_rel> -> '<', '>', '>=', '<=', '<>'
+<op_rel> -> '<', '>', '>=', '<=', '!='
 <op_aritm> -> +,-,*,/
 <op_logic> -> '&&', '||'
 <instr_attr> -> <ID> <op_atribuire> <expr> <delimitator>

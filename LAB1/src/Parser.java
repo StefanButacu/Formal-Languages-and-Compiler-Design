@@ -34,23 +34,23 @@ public class Parser {
             "int", "double", "boolean"
 
     ));
-    public static void main(String[] args) throws IllegalAccessException {
-        String fileName = "LAB1\\resources\\p1.txt";
-        System.out.println("P1: ");
-//        System.out.println(Path.of(fileName).toAbsolutePath());
-        parse(fileName);
-        System.out.println("=======================================");
-        fileName = "LAB1\\resources\\p2.txt";
-        System.out.println("P2: ");
-        parse(fileName);
-        System.out.println("=======================================");
-        fileName = "LAB1\\resources\\p3.txt";
-        System.out.println("P3: ");
-        parse(fileName);
-        System.out.println("=======================================");
-    }
+//    public static void main(String[] args) throws IllegalAccessException {
+//        String fileName = "LAB1\\resources\\p1.txt";
+//        System.out.println("P1: ");
+////        System.out.println(Path.of(fileName).toAbsolutePath());
+//        parse(fileName);
+//        System.out.println("=======================================");
+//        fileName = "LAB1\\resources\\p2.txt";
+//        System.out.println("P2: ");
+//        parse(fileName);
+//        System.out.println("=======================================");
+//        fileName = "LAB1\\resources\\p3.txt";
+//        System.out.println("P3: ");
+//        parse(fileName);
+//        System.out.println("=======================================");
+//    }
 
-    private static void parse(String fileName){
+    public void parse(String fileName){
         try(BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName))) {
             String line;
             while ( (line = bufferedReader.readLine()) != null){

@@ -1,3 +1,5 @@
+package ExamplesMLP;
+
 import java.util.Scanner;
 
 public class CMMDC {
@@ -16,7 +18,7 @@ public class CMMDC {
                 B -= A;
         }
         System.out.print("\n");
-        System.out.print("CMMDC=");
+        System.out.print("ExamplesMLP.CMMDC=");
         System.out.print(A);
     }
 

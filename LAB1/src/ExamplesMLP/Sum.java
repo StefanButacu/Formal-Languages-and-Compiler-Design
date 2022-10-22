@@ -1,3 +1,5 @@
+package ExamplesMLP;
+
 import java.util.Scanner;
 
 public class Sum {

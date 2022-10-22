@@ -1,18 +1,21 @@
 public class Main {
     public static void main ( String[] args ) {
         Scanner sc = new Scanner ( System.in ) ;
-        int n ;
-        System.out.println ( "n=" ) ;
-        n = sc.nextInt ( ) ;
-        int i = 0 ;
-        int sum = 0 ;
-        int x ;
-        while ( i < n ) {
-            x = sc.nextInt ( ) ;
-            sum = sum + x ;
-            i = i + 1 ;
+        int a ;
+        int b ;
+        System.out.println ( "a=" ) ;
+        a = sc.nextInt ( ) ;
+        System.out.println ( "b=" ) ;
+        b = sc.nextInt ( ) ;
+        while ( a != b ) {
+            if ( a > b ) {
+                a = a - b ;
+            }
+            else {
+                b = b - a ;
+            }
         }
-        System.out.println ( "sum=" ) ;
-        System.out.println ( sum ) ;
+        System.out.println ( "Cmmdc=" ) ;
+        System.out.println ( "a=" ) ;
     }
 }

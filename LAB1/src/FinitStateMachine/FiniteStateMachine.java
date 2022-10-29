@@ -8,7 +8,7 @@ import java.util.*;
 public class FiniteStateMachine {
 
     public String[] states;
-    public String[] alphabet;
+    public Character[] alphabet;
     public String initialState;
     public String[] finalStates;
     public List<String[]> transitions;
@@ -17,7 +17,7 @@ public class FiniteStateMachine {
 
     public boolean isDeterministic;
 
-    public FiniteStateMachine(String[] states, String[] alphabet, String initialState, String[] finalStates, List<String[]> transitions) {
+    public FiniteStateMachine(String[] states, Character[] alphabet, String initialState, String[] finalStates, List<String[]> transitions) {
         this.states = states;
         this.alphabet = alphabet;
         this.initialState = initialState;
@@ -32,15 +32,13 @@ public class FiniteStateMachine {
 
         for(String[] transition: transitions){
             String source = transition[0];
-            String symbol = transition[1];
+            Character symbol = transition[1].toCharArray()[0];
             String destination = transition[2];
             Edge edge = new Edge(destination, symbol);
             List<Edge> oldDestinations = graph.get(source);
             if(oldDestinations == null){
-                /// if in old destination exista 2 edgeuri care au acelasi symbol
                 oldDestinations = new ArrayList<>();
                 oldDestinations.add(edge);
-
                 graph.put(source, oldDestinations);
             }
             else{
@@ -63,9 +61,9 @@ public class FiniteStateMachine {
         }
     }
 
-    public boolean acceptsSequence(String[] symbolsSequence){
+    public boolean acceptsSequence(String symbolsSequence){
         String node = this.initialState;
-        for(String symbol: symbolsSequence){
+        for(Character symbol: symbolsSequence.toCharArray()){
             List<Edge> destinations = graph.get(node);
             if(destinations == null){
                 return false;
@@ -84,6 +82,35 @@ public class FiniteStateMachine {
         return isFinalState(node);
     }
 
+    public String findLongestAcceptedPrefix(String symbolsSequence){
+        String node = this.initialState;
+        String longestPrefix = "";
+        StringBuilder currentSequence = new StringBuilder();
+        for(Character symbol: symbolsSequence.toCharArray()){
+            if(isFinalState(node)){
+                longestPrefix = currentSequence.toString();
+            }
+            List<Edge> destinations = graph.get(node);
+            if(destinations == null){
+                return longestPrefix;
+            }
+            boolean canContinue = false;
+            for(Edge edge: destinations){
+                if(edge.symbol.equals(symbol)){
+                    node = edge.destinationState;
+                    currentSequence.append(symbol);
+                    canContinue = true;
+                    break;
+                }
+            }
+            if(!canContinue)
+                return longestPrefix;
+        }
+        if(isFinalState(node)){
+            longestPrefix = currentSequence.toString();
+        }
+        return longestPrefix;
+    }
     private boolean isFinalState(String node) {
         return Arrays.asList(finalStates).contains(node);
     }
@@ -91,7 +118,12 @@ public class FiniteStateMachine {
     public static FiniteStateMachine readFromFile(String filename){
         try(BufferedReader reader = new BufferedReader(new FileReader(filename))){
             String[] states = reader.readLine().split(" ");
-            String[] alphabet = reader.readLine().split(" ");
+            String[] alphabet =reader.readLine().split(" ");
+            Character[] alphabetChars = new Character[alphabet.length];
+            for(int i = 0 ; i < alphabet.length; i++){
+                alphabetChars[i] = alphabet[i].toCharArray()[0];
+            }
+
             String initialState = reader.readLine();
             String[] finalStates = reader.readLine().split(" ");
             List<String[]> transitions = new ArrayList<>();
@@ -100,7 +132,7 @@ public class FiniteStateMachine {
                 String[] transition = line.split(" ");
                 transitions.add(transition);
             }
-            return new FiniteStateMachine(states, alphabet, initialState, finalStates, transitions);
+            return new FiniteStateMachine(states, alphabetChars, initialState, finalStates, transitions);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -108,9 +140,9 @@ public class FiniteStateMachine {
 
     private static class Edge{
         public String destinationState;
-        public String symbol;
+        public Character symbol;
 
-        public Edge(String destinationState, String symbol) {
+        public Edge(String destinationState, Character symbol) {
             this.destinationState = destinationState;
             this.symbol = symbol;
         }

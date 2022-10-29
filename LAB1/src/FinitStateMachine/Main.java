@@ -5,13 +5,15 @@ public class Main {
 
         String filename = "LAB1\\resources\\finiteStateMachineExample.txt";
         FiniteStateMachine machine = FiniteStateMachine.readFromFile(filename);
-        String[] goodSequence = new String[]{"c", "d"};
-        String[] badSequence = new String[]{"c", "a"};
-        machine.acceptsSequence(goodSequence);
-        machine.acceptsSequence(badSequence);
-        System.out.println(machine.states);
-        System.out.println(machine.alphabet);
-        System.out.println(machine.transitions);
-        System.out.println(machine.initialState);
+//        String goodSequence = "cd";
+//        String badSequence = "ca";
+//        System.out.println(machine.acceptsSequence(goodSequence));
+//        System.out.println(machine.acceptsSequence(badSequence));
+//        System.out.println(machine.acceptsSequence("d"));
+//        System.out.println(machine.acceptsSequence("abcd"));
+//        System.out.println(machine.acceptsSequence("aaa"));
+//        System.out.println(machine.acceptsSequence("cc"));
+        System.out.println(machine.findLongestAcceptedPrefix("ddddddddddddda"));
+
     }
 }

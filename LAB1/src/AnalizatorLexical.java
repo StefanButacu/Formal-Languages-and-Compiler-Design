@@ -13,7 +13,7 @@ public class AnalizatorLexical {
 
         loadSymbolTable("LAB1\\resources\\SymbolsTable.txt");
         Lexer lexer = new Lexer(symbolsTable);
-        String fileName = "LAB1\\resources\\p2.txt";
+        String fileName = "LAB1\\resources\\p1.txt";
         System.out.println("P1: ");
         lexer.parse(fileName);
         if(lexer.isParseSucceeded()) {
@@ -26,10 +26,6 @@ public class AnalizatorLexical {
             MyHashTable constSymbolsTable = lexer.getConstSymbolsTable();
             writeSyombolsTable(idSymbolsTable, idTable);
             writeSyombolsTable(constSymbolsTable, constTable);
-            /// write to file
-
-            /// write to file id symbols table
-            /// write to file id const table
         }
 
     }

@@ -4,29 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MyHashTable {
-    private List<MyNode> bucketArray;
-    // Current capacity of array list
+//    private List<MyNode> bucketArray;
+    MyNode[] bucketArray;
     private int numBuckets;
 
-    // Current size of array list
     private int size;
 
     public MyHashTable() {
-        numBuckets = 10;
+        numBuckets = 2;
         size = 0;
-        bucketArray = new ArrayList<>();
-        for(int i = 0; i < 10 ; i++){
-            bucketArray.add(null);
+        bucketArray = new MyNode[numBuckets];
+        for(int i = 0; i < numBuckets ; i++){
+            bucketArray[i] = null;
         }
     }
 
-    public void addNode(MyNode node){
-
-
-    }
-
-    private int getBucketIndex(String lexicalAtom)
-    {
+    private int getBucketIndex(String lexicalAtom) {
         int hashCode = hashCode(lexicalAtom);
         int index = hashCode % numBuckets;
         // lexicalAtom.hashCode() could be negative.
@@ -55,21 +48,34 @@ public class MyHashTable {
         // insert node in the list pointed by head
         int bucketIndex = getBucketIndex(lexicalAtom);
         int hashCode = hashCode(lexicalAtom);
-        MyNode head = bucketArray.get(bucketIndex);
+        MyNode head = bucketArray[bucketIndex];
         toInsertNode.next = head;
-        bucketArray.set(bucketIndex,toInsertNode);
+        bucketArray[bucketIndex] = toInsertNode;
 
-        /// TODO
         ///  - double the capacity of the array if load factor > 0.7
+        if ((1.0 * size) / numBuckets >= 0.7) {
+            MyNode[] temp = bucketArray;
+            bucketArray = new MyNode[2*numBuckets];
+            numBuckets = 2 * numBuckets;
+            size = 0;
+            for (int i = 0; i < numBuckets; i++)
+                bucketArray[i]= null;
+
+            for (MyNode headNode : temp) {
+                while (headNode != null) {
+                    addLexicalAtom(headNode.lexicalAtom);
+                    headNode = headNode.next;
+                }
+            }
+        }
 
         return toInsertNode.positionInTable;
 
     }
 
     private Integer findPositionForAtomWithId(String lexicalAtom) {
-
         int bucketIndex = getBucketIndex(lexicalAtom);
-        MyNode head = bucketArray.get(bucketIndex);
+        MyNode head = bucketArray[bucketIndex];
         // Insert lexicalAtom in chain
         while(head != null){
             if(head.lexicalAtom.equals(lexicalAtom)) {
@@ -81,8 +87,8 @@ public class MyHashTable {
     }
     public List<MyNode> getAll(){
         List<MyNode> nodes = new ArrayList<>();
-        for(int i = 0 ; i < bucketArray.size(); i++){
-            MyNode head = bucketArray.get(i);
+        for(int i = 0 ; i < bucketArray.length; i++) {
+            MyNode head = bucketArray[i];
             if(head != null){
                 while(head != null){
                     nodes.add(head);

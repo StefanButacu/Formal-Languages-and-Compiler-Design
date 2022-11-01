@@ -13,3 +13,4 @@
 
 <stare> 						-> CONST
 <simbol_alfabet>				-> CONST
+CONST -> [a-zA-Z0-9]+

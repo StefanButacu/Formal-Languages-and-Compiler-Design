@@ -86,6 +86,9 @@ public class FiniteStateMachine {
         String node = this.initialState;
         String longestPrefix = "";
         StringBuilder currentSequence = new StringBuilder();
+        if(isFinalState(this.initialState)){
+            currentSequence.append("E");
+        }
         for(Character symbol: symbolsSequence.toCharArray()){
             if(isFinalState(node)){
                 longestPrefix = currentSequence.toString();

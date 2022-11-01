@@ -41,7 +41,7 @@ public class Main {
             } else if (Objects.equals(cmd, "5")) {
                 printFinalStates();
             } else if (Objects.equals(cmd, "6")) {
-                verifiyASequenceIsAccepted();
+                verifyASSequenceIsAccepted();
             } else if (Objects.equals(cmd, "7")) {
                 printLongestAcceptedPrefix();
             }  else {
@@ -58,7 +58,7 @@ public class Main {
 
     }
 
-    private static void verifiyASequenceIsAccepted() {
+    private static void verifyASSequenceIsAccepted() {
         System.out.println("Enter the sequence: ");
         String sequence = scanner.nextLine();
         boolean isAccepted = stateMachine.acceptsSequence(sequence);

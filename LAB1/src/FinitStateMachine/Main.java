@@ -95,7 +95,9 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        String filename = "LAB1\\resources\\Cpp-integers.in";
+        String filename = "LAB1\\resources\\Cpp-integers.txt";
+//        String filename = "LAB1\\resources\\classExample.txt";
+
         stateMachine = FiniteStateMachine.readFromFile(filename);
         scanner = new Scanner(System.in);
         run();

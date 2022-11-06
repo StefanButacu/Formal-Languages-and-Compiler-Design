@@ -1,0 +1,7 @@
+public enum Delimiter {
+
+    LOGICAL_OPERATOR,
+    ARITHMETIC_OPERATOR,
+    ATTRIBUTION_OPERATOR,
+    DELIMITER
+}

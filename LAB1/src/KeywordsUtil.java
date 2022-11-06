@@ -51,4 +51,45 @@ public class KeywordsUtil {
         return Pattern.compile("^[A-Z][a-z]+\\[]$").matcher(value).matches() ||
                 value.equals("int[]");
     }
+
+    public static boolean isSingleLogicalOperator(String c) {
+        return Pattern.compile("^([<>])$").matcher(c).matches();
+    }
+
+    public static boolean isArithmeticOperator(String c) {
+        return Pattern.compile("^([-+*/%])$").matcher(c).matches();
+    }
+
+    public static boolean isInstructionDelimiter(String c) {
+        return Pattern.compile("^(;)$").matcher(c).matches();
+
+    }
+
+    public static boolean isBlockOpenDelimiter(String c) {
+        return Pattern.compile("^(\\{)$").matcher(c).matches();
+    }
+    public static boolean isBlockClosedDelimiter(String c) {
+        return Pattern.compile("^(})$").matcher(c).matches();
+
+    }
+
+    public static boolean isConditionOpenDelimiter(String c) {
+        return Pattern.compile("^(\\()$").matcher(c).matches();
+
+    }
+    public static boolean isConditionCloseDelimiter(String c) {
+        return Pattern.compile("^(\\))$").matcher(c).matches();
+
+    }
+
+    public static boolean isOtherDelimiter(String c) {
+        return Pattern.compile("^(!)$").matcher(c).matches();
+    }
+
+    public static boolean isSpace(String c) {
+        return c.equals(" ");
+    }
+
+
+
 }

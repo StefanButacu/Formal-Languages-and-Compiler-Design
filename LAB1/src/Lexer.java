@@ -96,6 +96,50 @@ public class Lexer {
         parseSucceeded = true;
     }
 
+    public void parseLines(String filename) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+            String line;
+            int lineNumber =  1;
+            while((line = reader.readLine()) != null ){
+                parseLine(line.strip(), lineNumber);
+                lineNumber++;
+            }
+
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    private void parseLine(String line, int lineNumber) {
+        int left = 0, right = 0, len = line.length() - 1;
+        while(right <= len && left <= right){
+            Delimiter delimiterType = getDelimiteType(line.substring(right, right+1));
+
+        }
+    }
+
+    private Delimiter getDelimiteType(String c) {
+        if (KeywordsUtil.isSingleLogicalOperator(c)) {
+            return Delimiter.LOGICAL_OPERATOR;
+        }
+        else if(KeywordsUtil.isArithmeticOperator(c)){
+            return Delimiter.ARITHMETIC_OPERATOR;
+        } else if (KeywordsUtil.isInstructionDelimiter(c) ||
+                    KeywordsUtil.isBlockClosedDelimiter(c) ||
+                    KeywordsUtil.isBlockOpenDelimiter(c)||
+                    KeywordsUtil.isConditionOpenDelimiter(c)||
+                    KeywordsUtil.isConditionCloseDelimiter(c)||
+                    KeywordsUtil.isOtherDelimiter(c) ||
+                    KeywordsUtil.isSpace(c)) {
+            return Delimiter.DELIMITER;
+        }
+
+        return null;
+    }
+
     private Integer findPositionInConstTable(String token) {
         return constSymbolsTable.findOrAddAtomWithId(token);
     }

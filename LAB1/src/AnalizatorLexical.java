@@ -13,9 +13,10 @@ public class AnalizatorLexical {
 
         loadSymbolTable("LAB1\\resources\\SymbolsTable.txt");
         Lexer lexer = new Lexer(symbolsTable);
-        String fileName = "LAB1\\resources\\p1.txt";
+        String fileName = "LAB1\\resources\\p2.txt";
         System.out.println("P1: ");
-        lexer.parse(fileName);
+//        lexer.parse(fileName);
+        lexer.parseLines(fileName);
         if(lexer.isParseSucceeded()) {
             String fipFile = "LAB1\\resources\\FIP.csv";
             String idTable = "LAB1\\resources\\idTable.csv";

@@ -5,13 +5,13 @@ public class Main {
         double radius ;
         double peri ;
         double aria ;
-        System.out.println ( "Radius=" ) ;
+        System.out.println ( "Radius:" ) ;
         radius = sc.nextDouble ( ) ;
         peri = 2 * pi * radius ;
-        System.out.println ( "Perimeter=" ) ;
+        System.out.println ( "Perimeter:" ) ;
         System.out.println ( peri ) ;
         aria = pi * radius * radius ;
-        System.out.println ( "Aria=" ) ;
+        System.out.println ( "Aria:" ) ;
         System.out.println ( aria ) ;
     }
 

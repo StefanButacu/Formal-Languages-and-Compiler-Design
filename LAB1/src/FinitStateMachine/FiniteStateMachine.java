@@ -88,7 +88,6 @@ public class FiniteStateMachine {
         StringBuilder currentSequence = new StringBuilder();
         if(isFinalState(this.initialState)){
             currentSequence.append("E");
-//            currentSequence.append("''");
         }
         for(Character symbol: symbolsSequence.toCharArray()){
             if(isFinalState(node)){

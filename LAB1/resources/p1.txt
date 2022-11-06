@@ -1,21 +1,21 @@
 public class Main {
     public static void main ( String[] args ) {
-        Scanner sc = new Scanner ( System.in ) ;
-        int a ;
-        int b ;
-        System.out.println ( "a=" ) ;
+        Scanner sc =new Scanner( System.in ) ;
+        int a;
+        int b;
+        System.out.println ( "a:" ) ;
         a = sc.nextInt ( ) ;
-        System.out.println ( "b=" ) ;
+        System.out.println ( "b:" ) ;
         b = sc.nextInt ( ) ;
         while ( a != b ) {
             if ( a > b ) {
-                a = a - b ;
+                a = a-b ;
             }
             else {
-                b = b - a ;
+                b = b-a;
             }
         }
-        System.out.println ( "Cmmdc=" ) ;
-        System.out.println ( "a=" ) ;
+        System.out.println( "Cmmdc:" ) ;
+        System.out.println ( "a:" ) ;
     }
 }

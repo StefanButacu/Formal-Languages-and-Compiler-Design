@@ -3,9 +3,7 @@ public class Main {
         Scanner sc =new Scanner( System.in ) ;
         int a;
         int b;
-        System.out.println ( "a:" ) ;
         a = sc.nextInt ( ) ;
-        System.out.println ( "b:" ) ;
         b = sc.nextInt ( ) ;
         while ( a != b ) {
             if ( a > b ) {
@@ -15,7 +13,6 @@ public class Main {
                 b = b-a;
             }
         }
-        System.out.println( "Cmmdc:" ) ;
-        System.out.println ( "a:" ) ;
+        System.out.println (a);
     }
 }

@@ -1,3 +1,4 @@
+import FinitStateMachine.FiniteStateMachine;
 import MyDS.MyHashTable;
 
 import java.io.BufferedReader;
@@ -16,12 +17,18 @@ public class Lexer {
     private MyHashTable constSymbolsTable;
 
     private boolean parseSucceeded;
+    private FiniteStateMachine idStateMachine;
+    private FiniteStateMachine integersStateMachine;
+    private FiniteStateMachine realNumbersStateMachine;
     public Lexer(Map<String, Integer> atomsTable) {
         this.atomsTable = atomsTable;
         internalProgramForm = new ArrayList<>();
         idSymbolsTable = new MyHashTable();
         constSymbolsTable = new MyHashTable();
         parseSucceeded = true;
+        idStateMachine = FiniteStateMachine.readFromFile("LAB1\\resources\\finiteStateMachines\\Java-IDS.txt");
+        integersStateMachine = FiniteStateMachine.readFromFile("LAB1\\resources\\finiteStateMachines\\Cpp-integers.txt");
+        realNumbersStateMachine = FiniteStateMachine.readFromFile("LAB1\\resources\\finiteStateMachines\\real-numbers.txt");
     }
 
     public void parse(String fileName){
@@ -156,7 +163,8 @@ public class Lexer {
                     internalProgramForm.add(new Pair<>(atomCode, 0));
                 }else{
                     // is constant or id
-                    if (KeywordsUtil.isID(token)) {
+//                    if (KeywordsUtil.isID(token)) {
+                     if (idStateMachine.acceptsSequence(token)) {
                         Integer atomCode = findAtomCode("ID");
                         Integer positionInIdTable = findPositionInIDTable(token);
                         internalProgramForm.add(new Pair(atomCode, positionInIdTable));
@@ -172,13 +180,18 @@ public class Lexer {
                         Integer atomCode = findAtomCode(token);
                         internalProgramForm.add(new Pair<>(atomCode, 0));
                     }
-                    else if (KeywordsUtil.isConst(token)) {
+//                    else if (KeywordsUtil.isConst(token)) {
+                    else if (integersStateMachine.acceptsSequence(token)){
                         Integer atomCode = findAtomCode("CONST");
                         Integer positionInConstTable = findPositionInConstTable(token);
                         internalProgramForm.add(new Pair(atomCode, positionInConstTable));
-                        System.out.println(token + " -> CONST");     // const symbolTable
-                     }
-                   else {
+                        System.out.println(token + " -> Integer");     // const symbolTable
+                     } else if (realNumbersStateMachine.acceptsSequence(token)){
+                        Integer atomCode = findAtomCode("CONST");
+                        Integer positionInConstTable = findPositionInConstTable(token);
+                        internalProgramForm.add(new Pair(atomCode, positionInConstTable));
+                        System.out.println(token + " -> RealNumber");     // const symbolTable
+                    } else {
                         parseSucceeded = false;
                         System.err.println("Error at line " + lineNumber + ". Invalid symbol " + token);
                         return;

@@ -120,18 +120,20 @@ public class FiniteStateMachine {
 
     public static FiniteStateMachine readFromFile(String filename){
         try(BufferedReader reader = new BufferedReader(new FileReader(filename))){
-            String[] states = reader.readLine().split(" ");
-            String[] alphabet =reader.readLine().split(" ");
+            String[] states = reader.readLine().strip().split(" ");
+            String[] alphabet =reader.readLine().strip().split(" ");
             Character[] alphabetChars = new Character[alphabet.length];
             for(int i = 0 ; i < alphabet.length; i++){
                 alphabetChars[i] = alphabet[i].toCharArray()[0];
             }
-
-            String initialState = reader.readLine();
-            String[] finalStates = reader.readLine().split(" ");
+            String initialState = reader.readLine().strip();
+            String[] finalStates = reader.readLine().strip().split(" ");
             List<String[]> transitions = new ArrayList<>();
             String line;
             while( (line = reader.readLine()) != null) {
+                line = line.strip();
+                if(line.isEmpty())
+                    continue;
                 String[] transition = line.split(" ");
                 transitions.add(transition);
             }

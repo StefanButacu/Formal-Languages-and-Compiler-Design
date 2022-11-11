@@ -42,8 +42,7 @@ public class KeywordsUtil {
 
     }
     public static boolean isConst(String value){
-        return Pattern.compile("^[+-]?([1-9]?[0-9]*)(\\.[0-9]+)?").matcher(value).matches() ||
-                Pattern.compile("^[^ =<>(==)(!=)]*$").matcher(value).matches();
+        return Pattern.compile("^[+-]?([1-9]?[0-9]*)(\\.[0-9]+)?").matcher(value).matches();
     }
 
     public static boolean isArray(String value){

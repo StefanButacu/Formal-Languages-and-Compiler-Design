@@ -27,7 +27,7 @@ public class Lexer {
         constSymbolsTable = new MyHashTable();
         parseSucceeded = true;
         idStateMachine = FiniteStateMachine.readFromFile("LAB1\\resources\\finiteStateMachines\\Java-IDS.txt");
-        integersStateMachine = FiniteStateMachine.readFromFile("LAB1\\resources\\finiteStateMachines\\Cpp-integers.txt");
+        integersStateMachine = FiniteStateMachine.readFromFile("LAB1\\resources\\finiteStateMachines\\Java-integers.txt");
         realNumbersStateMachine = FiniteStateMachine.readFromFile("LAB1\\resources\\finiteStateMachines\\real-numbers.txt");
     }
 

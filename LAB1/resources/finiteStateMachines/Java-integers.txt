@@ -1,7 +1,7 @@
-q0 q1 q2 q3 q4 q5 q6 q7 q8 q9 q10 q11
-+ - x b 0 1 2 3 4 5 6 7 8 9 a b c d e f A B C D E F
+q0 q1 q2 q3 q4 q5 q6 q7 q8 q9 q10 q11 q12
++ - x b 0 1 2 3 4 5 6 7 8 9 a b c d e f A B C D E F L l
 q0
-q5 q6 q7 q9 q11
+q5 q6 q7 q9 q11 q12
 q0 - q1
 q0 1 q5
 q0 2 q5
@@ -134,3 +134,11 @@ q11 C q11
 q11 D q11
 q11 E q11
 q11 F q11
+q5 L q12
+q5 l q12
+q7 L q12
+q7 l q12
+q9 L q12
+q9 l q12
+q11 L q12
+q11 l q12

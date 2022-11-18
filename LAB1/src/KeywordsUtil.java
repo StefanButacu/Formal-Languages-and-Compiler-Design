@@ -25,14 +25,6 @@ public class KeywordsUtil {
     public static Set<String> type = new HashSet<>(Arrays.asList(
             "int", "double", "boolean"
     ));
-    public static boolean isAccessingNonStaticField(String value){
-        return Pattern.compile("[a-z]+\\.[a-z]").matcher(value).matches();
-    }
-
-    public static boolean isAccessingStaticField(String value){
-        return Pattern.compile("[A-Z][a-z]+\\.[a-z]").matcher(value).matches();
-    }
-
     public static boolean isID(String id){
         return Pattern.compile("^[a-z]{1,8}$").matcher(id).matches();
     }

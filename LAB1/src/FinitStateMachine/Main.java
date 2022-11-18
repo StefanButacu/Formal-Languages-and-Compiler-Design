@@ -95,7 +95,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        String filename = "LAB1\\resources\\Cpp-integers.txt";
+        String filename = "LAB1\\resources\\finiteStateMachines\\Java-integers.txt";
 //        String filename = "LAB1\\resources\\classExample.txt";
 
         stateMachine = FiniteStateMachine.readFromFile(filename);

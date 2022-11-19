@@ -147,14 +147,12 @@ accessingField [a-z]{1,8}\.[a-z]{1,8}
     fprintf(fptrFIP,"AtomCode=%d,Atom=%s,positionInTable=%d\n", atomCode, yytext, positionInTable+1);
 }
 {number_bin} {
-
     int atomCode = getAtomCode("CONST");
     int positionInTable = findOrAddPositionConstTable(yytext);
-    fprintf(fptrFIP,"AtomCode=%d,Atom=%s,positionInTable=%d\n", atomCode, yytext, positionInTable+1);    
+    fprintf(fptrFIP,"AtomCode=%d,Atom=%s,positionInTable=%d\n", atomCode, yytext, positionInTable+1);
 }
 
 {number_dec_hexa}|{number_oct} {
-
     int atomCode = getAtomCode("CONST");
     int positionInTable = findOrAddPositionConstTable(yytext);
     fprintf(fptrFIP,"AtomCode=%d,Atom=%s,positionInTable=%d\n", atomCode, yytext, positionInTable+1);
@@ -189,14 +187,14 @@ char **argv;
         FILE *fptrIdTable;
         fptrIdTable = fopen("idTable.csv", "w");
         for(int i = 0 ; i < idTableLen; i++){
-            fprintf(fptrIdTable, "Atom=%s,Position=%d\n", idTable[i],i);
+            fprintf(fptrIdTable, "Atom=%s,Position=%d\n", idTable[i],i + 1);
         }
         fclose(fptrIdTable);
 
         FILE *fptrConstTable;
         fptrConstTable = fopen("constTable.csv", "w");
         for(int i = 0 ; i < constTableLen; i++){
-            fprintf(fptrIdTable, "Atom=%s,Position=%d\n", constTable[i],i);
+            fprintf(fptrIdTable, "Atom=%s,Position=%d\n", constTable[i],i + 1);
         }
         fclose(fptrConstTable);
     }

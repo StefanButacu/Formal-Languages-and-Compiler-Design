@@ -6,14 +6,15 @@ public class Main {
         int c = 0.13f;
         0xffL;
         1234l;
+        0b1010;
         double radius ;
         double peri ;
         double aria ;
         radius = sc.nextDouble ( ) ;
         peri = 2 * pi * radius ;
-        System.out.println ( peri ) ;
-        aria = pi * radius * radius ;
-        System.out.println ( ariaa ) ;
+        System.out.println(peri);
+        aria = pi * radius*radius ;
+        System.out.println(ariaa ) ;
     }
 
 }

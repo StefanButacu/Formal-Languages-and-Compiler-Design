@@ -51,7 +51,7 @@ public class Lexer {
                             System.out.println(token + " -> " + field.getName());
                             foundKeywordOperatorSeparator = true;
                             Integer atomCode = findAtomCode(token);
-                            internalProgramForm.add(new Pair<>(atomCode, 0));
+                            internalProgramForm.add(new Pair<>(atomCode, null));
                             break;
                         }
                     }
@@ -62,13 +62,13 @@ public class Lexer {
                      if (KeywordsUtil.isArray(token)) {
                         System.out.println(token + " -> Array");
                         Integer atomCode = findAtomCode(token);
-                        internalProgramForm.add(new Pair<>(atomCode, 0));
+                        internalProgramForm.add(new Pair<>(atomCode, null));
                         foundClassIdConstArray = true;
                     }
                      else if (KeywordsUtil.isClassName(token)) {
                          System.out.println(token + " -> ClassName");   // ClassName  syombolsTable
                          Integer atomCode = findAtomCode(token);
-                         internalProgramForm.add(new Pair<>(atomCode, 0));
+                         internalProgramForm.add(new Pair<>(atomCode, null));
                          foundClassIdConstArray = true;
                      }
                     else if (KeywordsUtil.isID(token)) {
@@ -136,11 +136,13 @@ public class Lexer {
                     if(KeywordsUtil.isCompoundLogicalOperator(delimiter)) {
                         System.out.println(delimiter + " -> " + "Logical operator");
                         Integer atomCode = findAtomCode(delimiter);
-                        internalProgramForm.add(new Pair<>(atomCode, 0));
+                        internalProgramForm.add(new Pair<>(atomCode, null));
                         right += 2;
                     } else {
                         delimiter = line.substring(right, right+1);
                         if(!KeywordsUtil.isSpace(delimiter)){
+                            Integer atomCode = findAtomCode(delimiter);
+                            internalProgramForm.add(new Pair<>(atomCode, null));
                             System.out.println(delimiter + "->" + delimiterType.name());
                         }
                         right++;
@@ -149,6 +151,8 @@ public class Lexer {
                 else {
                     delimiter = line.substring(right, right + 1);
                     if(!KeywordsUtil.isSpace(delimiter)){
+                        Integer atomCode = findAtomCode(delimiter);
+                        internalProgramForm.add(new Pair<>(atomCode, null));
                         System.out.println(delimiter + " -> " + delimiterType.name());
                     }
                     right++;
@@ -160,7 +164,7 @@ public class Lexer {
                     /// print keyword type
                     System.out.println(token + "->" + " Keyword");
                     Integer atomCode = findAtomCode(token);
-                    internalProgramForm.add(new Pair<>(atomCode, 0));
+                    internalProgramForm.add(new Pair<>(atomCode, null));
                 }else{
                     // is constant or id
 //                    if (KeywordsUtil.isID(token)) {
@@ -173,12 +177,12 @@ public class Lexer {
                     else if (KeywordsUtil.isClassName(token)) {
                         System.out.println(token + " -> ClassName");   // ClassName  syombolsTable
                         Integer atomCode = findAtomCode(token);
-                        internalProgramForm.add(new Pair<>(atomCode, 0));
+                        internalProgramForm.add(new Pair<>(atomCode, null));
                     }
                     else if (KeywordsUtil.isArray(token)) {
                         System.out.println(token + " -> Array");
                         Integer atomCode = findAtomCode(token);
-                        internalProgramForm.add(new Pair<>(atomCode, 0));
+                        internalProgramForm.add(new Pair<>(atomCode, null));
                     }
 //                    else if (KeywordsUtil.isConst(token)) {
                     else if (integersStateMachine.acceptsSequence(token)){

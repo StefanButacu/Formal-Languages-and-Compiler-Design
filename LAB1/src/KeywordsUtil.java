@@ -29,6 +29,10 @@ public class KeywordsUtil {
         return Pattern.compile("^[a-z]{1,8}$").matcher(id).matches();
     }
 
+    public static boolean isAccessingField(String token){
+        return Pattern.compile("^[a-z]{1,8}\\.[a-z]{1,8}$").matcher(token).matches();
+    }
+
     public static boolean isClassName(String id){
         return Pattern.compile("^[A-Z][a-z]+$").matcher(id).matches();
 

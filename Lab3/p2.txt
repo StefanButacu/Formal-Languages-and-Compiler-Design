@@ -1,11 +1,14 @@
 public class Main {
     public static void main ( String[] args ) {
+        if (radius) then a = 5 endif
         Scanner sc = new Scanner ( System.in ) ;
         int a = 5;
         double pi = 3.14F ;
         int c = 0.13f;
         0xffL;
         1234l;
+        6.02e10;
+        6.02e-10;
         0b1010;
         double radius ;
         double peri ;

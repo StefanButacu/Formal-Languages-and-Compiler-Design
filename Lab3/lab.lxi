@@ -49,11 +49,13 @@ char atoms_table[100][100] = {
     ">",
     ">=",
     "!=",
-    "FIELD_ACCESS"
+    "FIELD_ACCESS",
+    "then",
+    "endif"
 };
 
 int getAtomCode(char* atom){
-    for(int i = 0; i < 43; i++){
+    for(int i = 0; i < 46; i++){
         if(strcmp(atoms_table[i], atom) == 0)
             return i;
     }
@@ -101,13 +103,13 @@ int findOrAddPositionConstTable(char *token) {
 
 acces_modifier public|private|protected
 IOInstruction System.out.println|System.out.print|System.in|sc.nextInt|sc.nextDouble|sc.nextLine
-keyword if|else|while|class|new|static|void
+keyword if|else|while|class|new|static|void|then|endif
 entryPointMethod main
 type int|double|boolean
 ID [a-z]*
 className [A-Z][a-z]+
-number_dec_hexa (([+-]?([1-9]?[0-9]*[lL]?)(\.[0-9]+)?)[fF]?)|((0[xX][0-9a-fA-F]+)[lL]?)
-number_bin 0[bB][01]+
+number_dec_hexa (([+-]?([1-9]?[0-9]*[lL]?)(\.[0-9]+)?)[fF]?)|((0[xX][0-9a-fA-F]+)[lL]?)|([-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)
+number_bin 0[bB][01]+[lL]?
 number_oct [+-]?(0[1-7]*[lL]?)
 array ([A-Z][a-z]+\[])|int\[]
 logicalOperator (==|!=|<=|>=|<|>)

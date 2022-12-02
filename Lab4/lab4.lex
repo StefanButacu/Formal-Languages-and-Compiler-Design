@@ -111,38 +111,35 @@ number_dec_hexa (([+-]?([1-9]?[0-9]*[lL]?)(\.[0-9]+)?)[fF]?)|((0[xX][0-9a-fA-F]+
 number_bin 0[bB][01]+[lL]?
 number_oct [+-]?(0[1-7]*[lL]?)
 array ([A-Z][a-z]+\[])|int\[]
-logicalOperator (==|!=|<=|>=|<|>)
+logicalOperator (<|>)
 attributionOperator [=]
 arithmeticOperator [-+*/%]
 accessingField [a-z]{1,8}\.[a-z]{1,8}
+public_main public[ ]+static[ ]+void[ ]+main[ ]*\([ ]*String\[][ ]+args[ ]*\)
+public_class public[ ]+class[ ]+Main[ ]*
+id_tip_clasa [A-Z][a-z]+$
+
 %%
 new {
-    printf("lex new\n");
     return NEW;
 }
 
 int {
-    printf("%s\n", yytext);
     return INT;
 }
 
 double {
-    printf("%s\n", yytext);
     return DOUBLE;
 }
 
 String {
-    printf("%s\n", yytext);
     return STRING;
 }
 
 Scanner {
-    printf("scanner = %s\n", yytext);
     return SCANNER;
 }
 System.in {
-    printf("%s\n", yytext);
-    printf(" System.in");
     return SYSTEM_IN;
 }
 
@@ -163,22 +160,21 @@ System.out.println {
 }
 
 {arithmeticOperator} {
-
-    return
+    return yytext[0];
 }
-
-"{"|"}"|"("|")"|"["|"]"|";" {
-    printf("%s\n", yytext);
+{logicalOperator} {
     return yytext[0];
 }
 
-"public class Main" {
-    printf("%s\n", yytext);
-    return PUBLIC_CLASS;
+
+"{"|"}"|"("|")"|"["|"]"|";" {
+    return yytext[0];
 }
 
-"public static void main(String[] args)" {
-    printf("%s\n", yytext);
+{public_class} {
+    return PUBLIC_CLASS;
+}
+{public_main} {
     return PUBLIC_MAIN;
 }
 
@@ -196,12 +192,16 @@ sc.nextInt {
 }
 
 {number_bin}|{number_dec_hexa}|{number_oct} {
- //   printf("%s\n", yytext);
     yylval.number = atoi(yytext);
     return CONST_NUMBER;
 }
 
-{keyword}|{acces_modifier}|{IOInstruction}|{array}|{logicalOperator} {
+!= {
+    return OPERATOR_NOT_EQ;
+}
+
+
+{keyword}|{acces_modifier}|{IOInstruction}|{array} {
 
 }
 
@@ -214,10 +214,11 @@ sc.nextInt {
 }
 
 {ID} {
-    printf("%s\n", yytext);
     strcpy(yylval.text, yytext);
     return ID;
 }
+
+
 
 . {
     printf("Unrecognized character: %s\n", yytext);

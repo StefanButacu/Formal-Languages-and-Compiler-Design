@@ -1,0 +1,1 @@
+Start-Process .\exe.exe -RedirectStandardInput .\p2.txt -NoNewWindow -Wait

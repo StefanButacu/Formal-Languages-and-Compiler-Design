@@ -1,0 +1,13 @@
+public class Main {
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        double radius ;
+        double peri ;
+        double aria ;
+        radius = sc.nextDouble();
+        peri = 2 * pi * radius;
+        System.out.println(peri);
+        aria = pi * radius*radius;
+        System.out.println(ariaa );
+    }
+}

@@ -39,17 +39,18 @@ program : PUBLIC_CLASS '{' first_line '{' lista_instr '}' '}'
 first_line: PUBLIC_MAIN
 ;
 
-lista_instr : instr | instr lista_instr
+lista_instr : instr
+	| instr lista_instr
 ;
 
-instr: instr_declarare |
-	instr_io |
-	instr_ciclare |
-	instr_attr |
-	instr_cond
+instr: instr_declarare
+	| instr_io
+	| instr_ciclare
+	| instr_attr
+	| instr_cond
 ;
 
-instr_io : SOUT '(' ID ')' ';' |
+instr_io : SOUT '(' ID ')' ';'
 	   { }
 ;
 
@@ -109,9 +110,8 @@ operatie : '+'
 
 rel :   '<' |
 	'>' |
-	OPERATOR_NOT_EQ |
+	OPERATOR_NOT_EQ
 ;
-
 instr_ciclare : WHILE '(' cond ')' '{' lista_instr '}'
 ;
 

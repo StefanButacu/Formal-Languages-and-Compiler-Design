@@ -20,20 +20,21 @@ public class Grammar {
         initializeFirsts();
         initializeFollows();
     }
+
     public void initializeFirsts() {
         for (String nonTerminal : nonTerminals) {
             Set<String> firsts = new HashSet<>();
             List<List<String>> rightHandSides = productionRules.get(nonTerminal);
             if (rightHandSides != null) {
                 rightHandSides.forEach(right -> {
-                    if( isTerminal(right.get(0))) {
+                    if (isTerminal(right.get(0))) {
                         firsts.add(right.get(0));
                     }
                 });
             }
             first.put(nonTerminal, firsts);
         }
-        for (String terminal: terminals) {
+        for (String terminal : terminals) {
             first.put(terminal, Set.of(terminal));
         }
         boolean hasChanged = false;
@@ -45,32 +46,28 @@ public class Grammar {
                 Set<String> newFirst = first.get(nonTerminal);
                 Set<String> oldFirst = new HashSet<>(first.get(nonTerminal));
 
-                for (List<String> rightHand: rightHandSides) {
+                for (List<String> rightHand : rightHandSides) {
                     for (int i = 0; i < rightHand.size(); i++) {
                         Set<String> firstOfSymbol = first.get(rightHand.get(i));
-                        if(firstOfSymbol.contains(epsilon)){
+                        if (firstOfSymbol.contains(epsilon)) {
                             newFirst.addAll(firstOfSymbol);
-                            if( i != rightHand.size() - 1) {
+                            if (i != rightHand.size() - 1) {
                                 newFirst.remove(epsilon);
                             }
-                        }else {
+                        } else {
                             newFirst.addAll(firstOfSymbol);
                             break;
                         }
                     }
-
-
                 }
-                if ( newFirst.size() != oldFirst.size()) {
+                if (newFirst.size() != oldFirst.size()) {
                     hasChanged = true;
                 }
             }
-
-        }while(hasChanged);
-
+        } while (hasChanged);
     }
 
-    private boolean isTerminal(String s){
+    private boolean isTerminal(String s) {
         return terminals.contains(s);
     }
 
@@ -96,10 +93,7 @@ public class Grammar {
                     startSymbol = left;
                 }
                 nonTerminals.add(left);
-
-
                 List<List<String>> productions = productionRules.getOrDefault(left, new ArrayList<>());
-                // 1
                 String[] rightProductionSide = parseLine[1].strip().split(" ");
                 productions.add(List.of(rightProductionSide));
                 productionRules.put(left, productions);

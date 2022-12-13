@@ -8,11 +8,11 @@ public class Grammar {
     String startSymbol;
     Set<String> terminals;
     Set<String> nonTerminals;
-    Map<String, List<String>> productionRules;
+    Map<String, List<List<String>>> productionRules;
     Map<String, List<String>> firsts;
     Map<String, List<String>> follows;
 
-    public Grammar(String startSymbol, Set<String> terminals, Set<String> nonTerminals, Map<String, List<String>> productionRules) {
+    public Grammar(String startSymbol, Set<String> terminals, Set<String> nonTerminals, Map<String, List<List<String>>> productionRules) {
         this.startSymbol = startSymbol;
         this.terminals = terminals;
         this.nonTerminals = nonTerminals;
@@ -20,11 +20,18 @@ public class Grammar {
         initializeFirsts();
         initializeFollows();
     }
-
     public void initializeFirsts() {
-        for (String nonTerminal : nonTerminals) {
-
-        }
+//        for (String nonTerminal : nonTerminals) {
+//            List<String> firsts = new ArrayList<>();
+//            List<String> rightHandSides = productionRules.get(nonTerminal);
+//            if (rightHandSides != null) {
+//                rightHandSides.forEach(right -> {
+//                    if ( right.substring(0,1) )
+//
+//                });
+//            }
+//
+//        }
     }
 
     public void initializeFollows() {
@@ -34,7 +41,7 @@ public class Grammar {
     public static Grammar readFromFile(String filename) {
         Set<String> terminals = new HashSet<>();
         Set<String> nonTerminals = new HashSet<>();
-        Map<String, List<String>> productionRules = new HashMap<>();
+        Map<String, List<List<String>>> productionRules = new HashMap<>();
         String startSymbol = null;
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
@@ -48,14 +55,16 @@ public class Grammar {
                 if (startSymbol == null) {
                     startSymbol = left;
                 }
-                nonTerminals.add(String.valueOf(left));
-                List<String> production = productionRules.getOrDefault(left, new ArrayList<>());
-                production.add(parseLine[1]);
-                productionRules.put(left, production);
-                String right = parseLine[1];
-                for (Character c : right.toCharArray()) {
-                    terminals.add(String.valueOf(c));
-                }
+                nonTerminals.add(left);
+
+
+                List<List<String>> productions = productionRules.getOrDefault(left, new ArrayList<>());
+                // 1
+                String[] rightProductionSide = parseLine[1].split(" ");
+                productions.add(List.of(rightProductionSide));
+                productionRules.put(left, productions);
+
+                terminals.addAll(List.of(rightProductionSide));
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -68,13 +77,4 @@ public class Grammar {
         return new Grammar(startSymbol, terminals, nonTerminals, productionRules);
     }
 
-    public void printLeftRecursiveRules() {
-        for (Map.Entry<String, List<String>> rule: productionRules.entrySet()) {
-            for (String result: rule.getValue()) {
-                if (result.toCharArray()[0] ==  rule.getKey().toCharArray()[0]) {
-                    System.out.println(rule.getKey() + "->" + result);
-                }
-            }
-        }
-    }
 }

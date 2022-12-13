@@ -10,18 +10,26 @@ public class Grammar {
     Set<String> nonTerminals;
     Map<String, List<List<String>>> productionRules;
     Map<String, Set<String>> first = new HashMap<>();
-    Map<String, Set<String>> follows = new HashMap<>();
+    ParsingTree tree = new ParsingTree();
 
     public Grammar(String startSymbol, Set<String> terminals, Set<String> nonTerminals, Map<String, List<List<String>>> productionRules) {
         this.startSymbol = startSymbol;
         this.terminals = terminals;
         this.nonTerminals = nonTerminals;
         this.productionRules = productionRules;
-        initializeFirsts();
-        initializeFollows();
     }
 
-    public Set<String> getFirst(List<String> terms) {
+    public void generateParsingTable() {
+        initializeFirsts();
+        generateParsingTree();
+        
+    }
+
+    public void generateParsingTree() {
+
+    }
+
+    private Set<String> getFirst(List<String> terms) {
         Set<String> firsts = new HashSet<>();
         for (int i = 0; i < terms.size(); i++) {
             String term = terms.get(i);
@@ -38,7 +46,7 @@ public class Grammar {
         return firsts;
     }
 
-    public void initializeFirsts() {
+    private void initializeFirsts() {
         for (String nonTerminal : nonTerminals) {
             Set<String> firsts = new HashSet<>();
             List<List<String>> rightHandSides = productionRules.get(nonTerminal);
@@ -85,16 +93,6 @@ public class Grammar {
 
     private boolean isTerminal(String s) {
         return terminals.contains(s);
-    }
-
-    public void initializeFollows() {
-        for (String nonTerminal : nonTerminals) {
-            if (nonTerminal.equals("S"))
-                follows.put(nonTerminal, Set.of("$"));
-            else
-                follows.put(nonTerminal, new HashSet<>());
-        }
-
     }
 
     public static Grammar readFromFile(String filename) {

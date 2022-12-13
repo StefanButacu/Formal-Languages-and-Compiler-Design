@@ -1,4 +1,5 @@
-S-a A B
-A-a A
-A-A b A
-B-C C B
+S - a a B
+B - C D a
+C - b
+C - #
+D - c

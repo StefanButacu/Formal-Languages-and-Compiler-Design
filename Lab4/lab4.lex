@@ -52,11 +52,14 @@ char atoms_table[100][100] = {
     "!=",
     "FIELD_ACCESS",
     "then",
-    "endif"
+    "endif",
+    "daca",
+    "atunci",
+    "sfdaca"
 };
 
 int getAtomCode(char* atom){
-    for(int i = 0; i < 46; i++){
+    for(int i = 0; i < 49; i++){
         if(strcmp(atoms_table[i], atom) == 0)
             return i;
     }
@@ -141,6 +144,16 @@ Scanner {
 }
 System.in {
     return SYSTEM_IN;
+}
+
+daca {
+    return DACA;
+}
+atunci {
+    return ATUNCI;
+}
+sfdaca {
+    return SFDACA;
 }
 
 if {

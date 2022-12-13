@@ -9,5 +9,6 @@ public class Main {
         System.out.println(peri);
         aria = pi * radius*radius;
         System.out.println(ariaa );
+        daca pi < radi atunci  aria = pi * radius*radius; sfdaca
     }
 }

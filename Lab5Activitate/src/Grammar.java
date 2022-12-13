@@ -1,5 +1,4 @@
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
@@ -21,14 +20,14 @@ public class Grammar {
         List<String> rightHandSides = productionRules.getOrDefault(nonTerminal, null);
         if(rightHandSides != null ) {
             for (String rightHand : rightHandSides) {
-                if ( terminals.contains(rightHand.toCharArray()[0]) ) {
+                if (terminals.contains(rightHand.toCharArray()[0])) {
                     return String.valueOf(rightHand.toCharArray()[0]);
                 }
             }
         }
         return null;
-
     }
+
     public static Grammar readFromFile(String filename) {
         Set<String> terminals = new HashSet<>();
         Set<String> nonTerminals = new HashSet<>();
@@ -43,7 +42,7 @@ public class Grammar {
                     continue;
                 String[] parseLine = line.split("-");
                 String left = parseLine[0];
-                if(startSymbol == null) {
+                if (startSymbol == null) {
                     startSymbol = left;
                 }
                 nonTerminals.add(String.valueOf(left));
@@ -55,26 +54,24 @@ public class Grammar {
                     terminals.add(String.valueOf(c));
                 }
             }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         // remove from terminals the symbols which appear in non-terminals
-        for(String nonTerminal : nonTerminals){
+        for (String nonTerminal : nonTerminals) {
             terminals.remove(nonTerminal);
         }
 
         return new Grammar(startSymbol, terminals, nonTerminals, productionRules);
-
     }
-        public void printLeftRecursiveRules() {
-            for(Map.Entry<String, List<String>> rule: productionRules.entrySet()){
-                for(String result: rule.getValue()){
-                    if(result.toCharArray()[0] ==  rule.getKey().toCharArray()[0]){
-                        System.out.println(rule.getKey() + "->" + result);
-                    }
+
+    public void printLeftRecursiveRules() {
+        for (Map.Entry<String, List<String>> rule: productionRules.entrySet()) {
+            for (String result: rule.getValue()) {
+                if (result.toCharArray()[0] ==  rule.getKey().toCharArray()[0]) {
+                    System.out.println(rule.getKey() + "->" + result);
                 }
             }
+        }
     }
 }

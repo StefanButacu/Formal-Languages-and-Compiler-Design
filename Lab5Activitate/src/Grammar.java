@@ -4,28 +4,31 @@ import java.io.IOException;
 import java.util.*;
 
 public class Grammar {
+    public final static String epsilon = "#";
     String startSymbol;
     Set<String> terminals;
     Set<String> nonTerminals;
     Map<String, List<String>> productionRules;
+    Map<String, List<String>> firsts;
+    Map<String, List<String>> follows;
 
     public Grammar(String startSymbol, Set<String> terminals, Set<String> nonTerminals, Map<String, List<String>> productionRules) {
         this.startSymbol = startSymbol;
         this.terminals = terminals;
         this.nonTerminals = nonTerminals;
         this.productionRules = productionRules;
+        initializeFirsts();
+        initializeFollows();
     }
 
-    public String getLookahead(String nonTerminal) {
-        List<String> rightHandSides = productionRules.getOrDefault(nonTerminal, null);
-        if(rightHandSides != null ) {
-            for (String rightHand : rightHandSides) {
-                if (terminals.contains(rightHand.toCharArray()[0])) {
-                    return String.valueOf(rightHand.toCharArray()[0]);
-                }
-            }
+    public void initializeFirsts() {
+        for (String nonTerminal : nonTerminals) {
+
         }
-        return null;
+    }
+
+    public void initializeFollows() {
+
     }
 
     public static Grammar readFromFile(String filename) {

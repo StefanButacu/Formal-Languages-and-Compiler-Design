@@ -21,6 +21,23 @@ public class Grammar {
         initializeFollows();
     }
 
+    public Set<String> getFirst(List<String> terms) {
+        Set<String> firsts = new HashSet<>();
+        for (int i = 0; i < terms.size(); i++) {
+            String term = terms.get(i);
+            Set<String> firstOfTerm = first.get(term);
+            firsts.addAll(firstOfTerm);
+            if (firstOfTerm.contains(epsilon)) {
+                if (i != terms.size() - 1) {
+                    firsts.remove(epsilon);
+                }
+            } else {
+                break;
+            }
+        }
+        return firsts;
+    }
+
     public void initializeFirsts() {
         for (String nonTerminal : nonTerminals) {
             Set<String> firsts = new HashSet<>();
@@ -49,13 +66,12 @@ public class Grammar {
                 for (List<String> rightHand : rightHandSides) {
                     for (int i = 0; i < rightHand.size(); i++) {
                         Set<String> firstOfSymbol = first.get(rightHand.get(i));
+                        newFirst.addAll(firstOfSymbol);
                         if (firstOfSymbol.contains(epsilon)) {
-                            newFirst.addAll(firstOfSymbol);
                             if (i != rightHand.size() - 1) {
                                 newFirst.remove(epsilon);
                             }
                         } else {
-                            newFirst.addAll(firstOfSymbol);
                             break;
                         }
                     }
@@ -72,6 +88,12 @@ public class Grammar {
     }
 
     public void initializeFollows() {
+        for (String nonTerminal : nonTerminals) {
+            if (nonTerminal.equals("S"))
+                follows.put(nonTerminal, Set.of("$"));
+            else
+                follows.put(nonTerminal, new HashSet<>());
+        }
 
     }
 

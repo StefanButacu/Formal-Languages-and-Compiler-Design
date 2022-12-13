@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.util.*;
 
 public class Grammar {
-
-
     String startSymbol;
     Set<String> terminals;
     Set<String> nonTerminals;
@@ -19,6 +17,18 @@ public class Grammar {
         this.productionRules = productionRules;
     }
 
+    public String getLookahead(String nonTerminal) {
+        List<String> rightHandSides = productionRules.getOrDefault(nonTerminal, null);
+        if(rightHandSides != null ) {
+            for (String rightHand : rightHandSides) {
+                if ( terminals.contains(rightHand.toCharArray()[0]) ) {
+                    return String.valueOf(rightHand.toCharArray()[0]);
+                }
+            }
+        }
+        return null;
+
+    }
     public static Grammar readFromFile(String filename) {
         Set<String> terminals = new HashSet<>();
         Set<String> nonTerminals = new HashSet<>();

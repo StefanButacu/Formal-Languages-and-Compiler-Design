@@ -30,6 +30,9 @@ double number;
 %token SC_DOUBLE
 %token OPERATOR_NOT_EQ
 %token ID_TIP_CLASA
+%token DACA
+%token ATUNCI
+%token SFDACA
 %%
 
 program : PUBLIC_CLASS '{' first_line '{' lista_instr '}' '}'
@@ -48,6 +51,10 @@ instr: instr_declarare
 	| instr_ciclare
 	| instr_attr
 	| instr_cond
+	| instr_daca
+;
+
+instr_daca: DACA cond ATUNCI instr SFDACA
 ;
 
 instr_io : SOUT '(' ID ')' ';'

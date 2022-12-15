@@ -22,10 +22,21 @@ public class Grammar {
     public void generateParsingTable() {
         initializeFirsts();
         generateParsingTree();
-        
     }
 
-    public void generateParsingTree() {
+    private void generateParsingTree() {
+        Node node0 = new Node();
+        String startNonTerminal = "S";
+        node0.items.add(new DotProductionRule(startNonTerminal + "'",
+                List.of(startNonTerminal), 0, getFirst(List.of(startNonTerminal))));
+//        for (String nonTerminal : nonTerminals)
+//            for (List<String> prodRule : productionRules.get(nonTerminal))
+//                node0.items.add(new DotProductionRule(nonTerminal, prodRule, 0, getFirst(prodRule)));
+        closure(node0);
+        tree.nodes.put(0, node0);
+    }
+
+    private void closure(Node node) {
 
     }
 

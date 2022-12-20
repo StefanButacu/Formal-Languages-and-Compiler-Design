@@ -20,24 +20,64 @@ public class Grammar {
     }
 
     public void generateParsingTable() {
-        initializeFirsts();
+        enrichGrammar();
+        initializeFirst();
         generateParsingTree();
+    }
+
+    private void enrichGrammar() {
+        String addedNonTerminal = "S'";
+        String startNonTerminal = "S";
+        this.nonTerminals.add(addedNonTerminal);
+        productionRules.put(addedNonTerminal, List.of(List.of(startNonTerminal)));
     }
 
     private void generateParsingTree() {
         Node node0 = new Node();
         String startNonTerminal = "S";
+        first.put("$", Set.of("$"));
         node0.items.add(new DotProductionRule(startNonTerminal + "'",
-                List.of(startNonTerminal), 0, getFirst(List.of(startNonTerminal))));
-//        for (String nonTerminal : nonTerminals)
-//            for (List<String> prodRule : productionRules.get(nonTerminal))
-//                node0.items.add(new DotProductionRule(nonTerminal, prodRule, 0, getFirst(prodRule)));
+                List.of(startNonTerminal), 0, Set.of("$")));
         closure(node0);
         tree.nodes.put(0, node0);
     }
 
-    private void closure(Node node) {
+    private void goTo(Node fromNode, String term) {
 
+    }
+
+    private void closure(Node node) {
+        boolean hasChanged;
+        do {
+            hasChanged = false;
+            List<DotProductionRule> itemsCopy = new ArrayList<>(node.items);
+            for (DotProductionRule item : itemsCopy) {
+                int dot = item.dotPosition, size = item.to.size();
+                String dotElement = item.to.get(dot);
+                if (isNonTerminal(dotElement)) {
+                    // will get the first terminal(s) from the terms list
+                    // terms contains the nonterminals and terminals after the dot nonterminal
+                    List<String> terms = new ArrayList<>(item.to.subList(dot + 1, size));
+                    // to which we add the lookahead of the current production rule,
+                    // in case the last nonterminal can be epsilon (#)
+                    terms.addAll(item.lookAhead);
+                    Set<String> lookahead = getFirst(terms);
+                    for (DotProductionRule rule : getRulesOfNonTerminal(dotElement, lookahead)) {
+                        if (!node.items.contains(rule)) {
+                            node.items.add(rule);
+                            hasChanged = true;
+                        }
+                    }
+                }
+            }
+        } while (hasChanged);
+    }
+
+    private List<DotProductionRule> getRulesOfNonTerminal(String nonTerminal, Set<String> lookahead) {
+        List<DotProductionRule> rules = new ArrayList<>();
+        for (List<String> right : productionRules.get(nonTerminal))
+            rules.add(new DotProductionRule(nonTerminal, right, 0, lookahead));
+        return rules;
     }
 
     private Set<String> getFirst(List<String> terms) {
@@ -57,7 +97,7 @@ public class Grammar {
         return firsts;
     }
 
-    private void initializeFirsts() {
+    private void initializeFirst() {
         for (String nonTerminal : nonTerminals) {
             Set<String> firsts = new HashSet<>();
             List<List<String>> rightHandSides = productionRules.get(nonTerminal);
@@ -73,7 +113,7 @@ public class Grammar {
         for (String terminal : terminals) {
             first.put(terminal, Set.of(terminal));
         }
-        boolean hasChanged = false;
+        boolean hasChanged;
 
         do {
             hasChanged = false;
@@ -100,6 +140,19 @@ public class Grammar {
                 }
             }
         } while (hasChanged);
+    }
+
+    public void printFirst() {
+        for (String nonTerminal : first.keySet()) {
+            System.out.print(nonTerminal + ": ");
+            for (String terminal : first.get(nonTerminal))
+                System.out.print(terminal + ", ");
+            System.out.println();
+        }
+    }
+
+    private boolean isNonTerminal(String s) {
+        return nonTerminals.contains(s);
     }
 
     private boolean isTerminal(String s) {

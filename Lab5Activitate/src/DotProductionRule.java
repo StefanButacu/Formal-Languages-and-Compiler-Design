@@ -30,4 +30,23 @@ public class DotProductionRule {
             sb.append(term).append(" ");
         return sb.toString();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof DotProductionRule))
+            return false;
+        DotProductionRule dot = (DotProductionRule) o;
+
+        if (!this.from.equals(dot.from) || this.to.size() != dot.to.size() ||
+                this.lookAhead.size() != dot.lookAhead.size())
+            return false;
+        for (int i = 0; i < this.to.size(); i++)
+            if (!this.to.get(i).equals(dot.to.get(i)))
+                return false;
+        if (this.dotPosition != dot.dotPosition)
+            return false;
+        return this.lookAhead.equals(dot.lookAhead);
+    }
 }

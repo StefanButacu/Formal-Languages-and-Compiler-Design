@@ -27,41 +27,83 @@ public class Grammar {
 
     private void enrichGrammar() {
         String addedNonTerminal = "S'";
-        String startNonTerminal = "S";
         this.nonTerminals.add(addedNonTerminal);
-        productionRules.put(addedNonTerminal, List.of(List.of(startNonTerminal)));
+        productionRules.put(addedNonTerminal, List.of(List.of(startSymbol)));
     }
 
     private void generateParsingTree() {
-        Node node0 = new Node();
-        String startNonTerminal = "S";
+        tree.nodes.put(0, new Node());
         first.put("$", Set.of("$"));
-        node0.items.add(new DotProductionRule(startNonTerminal + "'",
-                List.of(startNonTerminal), 0, Set.of("$")));
-        closure(node0);
-        tree.nodes.put(0, node0);
+        tree.nodes.get(0).items.add(new DotProductionRule("S'",
+                List.of(startSymbol), 0, Set.of("$")));
+        tree.nodes.get(0).number = 0;
+        closure(tree.nodes.get(0));
+        Set<Integer> newNodeNumbers = goTo(tree.nodes.get(0));
+        while (!newNodeNumbers.isEmpty()) {
+            Set<Integer> newNodeNumbersCopy = new HashSet<>(newNodeNumbers);
+            newNodeNumbers.clear();
+            for (Integer nodeNumber : newNodeNumbersCopy) {
+                closure(tree.nodes.get(nodeNumber));
+                newNodeNumbers.addAll(goTo(tree.nodes.get(nodeNumber)));
+            }
+            if (newNodeNumbers.isEmpty())
+                break;
+        }
     }
 
-    private void goTo(Node fromNode, String term) {
-
+    private Set<Integer> goTo(Node fromNode) {
+        Set<Integer> newNodeNumbers = new HashSet<>();
+        for (DotProductionRule rule : fromNode.items) {
+            DotProductionRule newRule = new DotProductionRule(
+                    rule.from, rule.to, rule.dotPosition + 1, rule.lookAhead
+            );
+            boolean found = false;
+            if (rule.dotPosition >= rule.to.size())
+                continue;
+            String dotTerm = rule.to.get(rule.dotPosition);
+            if (dotTerm.equals(epsilon))
+                continue;
+            for (Node toNode : tree.nodes.values()) {
+                if (toNode.items.get(0).equals(newRule)) {
+                    found = true;
+                    if (!tree.links.containsKey(fromNode.number))
+                        tree.links.put(fromNode.number, new HashMap<>());
+                    tree.links.get(fromNode.number).put(dotTerm, toNode);
+                }
+            }
+            if (found)
+                continue;
+            Integer currentNodeNumber = tree.nodes.size();
+            tree.nodes.put(currentNodeNumber, new Node());
+            tree.nodes.get(currentNodeNumber).number = currentNodeNumber;
+            tree.nodes.get(currentNodeNumber).items.add(newRule);
+            if (!tree.links.containsKey(fromNode.number))
+                tree.links.put(fromNode.number, new HashMap<>());
+            tree.links.get(fromNode.number).put(dotTerm, tree.nodes.get(currentNodeNumber));
+            newNodeNumbers.add(currentNodeNumber);
+        }
+        return newNodeNumbers;
     }
 
     private void closure(Node node) {
         boolean hasChanged;
         do {
             hasChanged = false;
-            List<DotProductionRule> itemsCopy = new ArrayList<>(node.items);
+            Set<DotProductionRule> itemsCopy = new HashSet<>(node.items);
             for (DotProductionRule item : itemsCopy) {
                 int dot = item.dotPosition, size = item.to.size();
+                if (dot >= item.to.size())
+                    continue;
                 String dotElement = item.to.get(dot);
                 if (isNonTerminal(dotElement)) {
                     // will get the first terminal(s) from the terms list
                     // terms contains the nonterminals and terminals after the dot nonterminal
                     List<String> terms = new ArrayList<>(item.to.subList(dot + 1, size));
-                    // to which we add the lookahead of the current production rule,
-                    // in case the last nonterminal can be epsilon (#)
-                    terms.addAll(item.lookAhead);
                     Set<String> lookahead = getFirst(terms);
+                    // to which we add the lookahead of the current production rule,
+                    // if the last nonterminal can be epsilon (#)
+                    if (lookahead.isEmpty() || lookahead.contains(epsilon))
+                        lookahead.addAll(item.lookAhead);
                     for (DotProductionRule rule : getRulesOfNonTerminal(dotElement, lookahead)) {
                         if (!node.items.contains(rule)) {
                             node.items.add(rule);
@@ -143,9 +185,11 @@ public class Grammar {
     }
 
     public void printFirst() {
-        for (String nonTerminal : first.keySet()) {
-            System.out.print(nonTerminal + ": ");
-            for (String terminal : first.get(nonTerminal))
+        for (String term : first.keySet()) {
+            if (isTerminal(term) || isEndTerm(term))
+                continue;
+            System.out.print(term + ": ");
+            for (String terminal : first.get(term))
                 System.out.print(terminal + ", ");
             System.out.println();
         }
@@ -157,6 +201,10 @@ public class Grammar {
 
     private boolean isTerminal(String s) {
         return terminals.contains(s);
+    }
+
+    private boolean isEndTerm(String s) {
+        return s.equals("$");
     }
 
     public static Grammar readFromFile(String filename) {

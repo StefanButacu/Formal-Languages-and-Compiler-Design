@@ -25,6 +25,8 @@ public class DotProductionRule {
                 sb.append(".");
             sb.append(term);
         }
+        if (to.size() == dotPosition)
+            sb.append(".");
         sb.append(", ");
         for (String term : lookAhead)
             sb.append(term).append(" ");
@@ -35,9 +37,8 @@ public class DotProductionRule {
     public boolean equals(Object o) {
         if (o == this)
             return true;
-        if (!(o instanceof DotProductionRule))
+        if (!(o instanceof DotProductionRule dot))
             return false;
-        DotProductionRule dot = (DotProductionRule) o;
 
         if (!this.from.equals(dot.from) || this.to.size() != dot.to.size() ||
                 this.lookAhead.size() != dot.lookAhead.size())

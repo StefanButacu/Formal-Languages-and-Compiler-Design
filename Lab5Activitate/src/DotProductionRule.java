@@ -33,6 +33,15 @@ public class DotProductionRule {
         return sb.toString();
     }
 
+    public boolean sameAs(ProductionRule rule) {
+        if (!this.from.equals(rule.from) || this.to.size() != rule.to.size())
+            return false;
+        for (int i = 0; i < this.to.size(); i++)
+            if (!this.to.get(i).equals(rule.to.get(i)))
+                return false;
+        return true;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == this)

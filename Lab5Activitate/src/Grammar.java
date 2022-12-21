@@ -8,14 +8,18 @@ public class Grammar {
     String startSymbol;
     Set<String> terminals;
     Set<String> nonTerminals;
-    Map<String, List<List<String>>> productionRules;
+    Map<String, List<List<String>>> productionRulesMap;
+    List<ProductionRule> productionRules;
     Map<String, Set<String>> first = new HashMap<>();
     ParsingTree tree = new ParsingTree();
+    ParsingTable table = new ParsingTable();
 
-    public Grammar(String startSymbol, Set<String> terminals, Set<String> nonTerminals, Map<String, List<List<String>>> productionRules) {
+    public Grammar(String startSymbol, Set<String> terminals, Set<String> nonTerminals,
+                   Map<String, List<List<String>>> productionRulesMap, List<ProductionRule> productionRules) {
         this.startSymbol = startSymbol;
         this.terminals = terminals;
         this.nonTerminals = nonTerminals;
+        this.productionRulesMap = productionRulesMap;
         this.productionRules = productionRules;
     }
 
@@ -23,12 +27,54 @@ public class Grammar {
         enrichGrammar();
         initializeFirst();
         generateParsingTree();
+        genTable();
+    }
+
+    private void genTable() {
+        for (int i = 0; i < tree.nodes.size(); i++)
+            table.transitions.put(i, new HashMap<>());
+        Action action;
+        for (Node node : tree.nodes.values()) {
+            for (DotProductionRule rule : node.items) {
+                if (rule.dotPosition < rule.to.size()) {
+                    String dotTerm = rule.to.get(rule.dotPosition);
+                    if (dotTerm.equals(epsilon))
+                        continue;
+                    if (table.transitions.get(node.number).containsKey(dotTerm))
+                        throw new RuntimeException("Conflict in table");
+                    int toNodeNumber = tree.links.get(node.number).get(dotTerm).number;
+                    action = new Action(ActionType.SHIFT, toNodeNumber);
+                    table.transitions.get(node.number).put(dotTerm, action);
+                } else if (rule.dotPosition == rule.to.size()) {
+                    int prodRuleNumber = -1;
+                    for (ProductionRule pr : productionRules)
+                        if (rule.sameAs(pr)) {
+                            prodRuleNumber = pr.number;
+                            break;
+                        }
+                    if (prodRuleNumber < 0)
+                        throw new RuntimeException("Nonexistent production rule??");
+                    if (prodRuleNumber == 0)
+                        action = new Action(ActionType.ACCEPT);
+                    else
+                        action = new Action(ActionType.REDUCE, prodRuleNumber);
+                    for (String term : rule.lookAhead) {
+                        if (table.transitions.get(node.number).containsKey(term))
+                            throw new RuntimeException("Conflict in table");
+                        table.transitions.get(node.number).put(term, action);
+                    }
+                } else {
+                    throw new RuntimeException("Dot position > rule.to.size()??");
+                }
+            }
+        }
     }
 
     private void enrichGrammar() {
         String addedNonTerminal = "S'";
         this.nonTerminals.add(addedNonTerminal);
-        productionRules.put(addedNonTerminal, List.of(List.of(startSymbol)));
+        productionRulesMap.put(addedNonTerminal, List.of(List.of(startSymbol)));
+        productionRules.add(new ProductionRule(0, addedNonTerminal, List.of(startSymbol)));
     }
 
     private void generateParsingTree() {
@@ -117,7 +163,7 @@ public class Grammar {
 
     private List<DotProductionRule> getRulesOfNonTerminal(String nonTerminal, Set<String> lookahead) {
         List<DotProductionRule> rules = new ArrayList<>();
-        for (List<String> right : productionRules.get(nonTerminal))
+        for (List<String> right : productionRulesMap.get(nonTerminal))
             rules.add(new DotProductionRule(nonTerminal, right, 0, lookahead));
         return rules;
     }
@@ -142,7 +188,7 @@ public class Grammar {
     private void initializeFirst() {
         for (String nonTerminal : nonTerminals) {
             Set<String> firsts = new HashSet<>();
-            List<List<String>> rightHandSides = productionRules.get(nonTerminal);
+            List<List<String>> rightHandSides = productionRulesMap.get(nonTerminal);
             if (rightHandSides != null) {
                 rightHandSides.forEach(right -> {
                     if (isTerminal(right.get(0))) {
@@ -160,7 +206,7 @@ public class Grammar {
         do {
             hasChanged = false;
             for (String nonTerminal : nonTerminals) {
-                List<List<String>> rightHandSides = productionRules.get(nonTerminal);
+                List<List<String>> rightHandSides = productionRulesMap.get(nonTerminal);
                 Set<String> newFirst = first.get(nonTerminal);
                 Set<String> oldFirst = new HashSet<>(first.get(nonTerminal));
 
@@ -195,6 +241,12 @@ public class Grammar {
         }
     }
 
+    public void printProductionRules() {
+        System.out.println("PRODUCTION RULES");
+        for (ProductionRule rule : productionRules)
+            System.out.println(rule);
+    }
+
     private boolean isNonTerminal(String s) {
         return nonTerminals.contains(s);
     }
@@ -210,9 +262,10 @@ public class Grammar {
     public static Grammar readFromFile(String filename) {
         Set<String> terminals = new HashSet<>();
         Set<String> nonTerminals = new HashSet<>();
-        Map<String, List<List<String>>> productionRules = new HashMap<>();
+        Map<String, List<List<String>>> prodRulesMap = new HashMap<>();
+        List<ProductionRule> prodRules = new ArrayList<>();
         String startSymbol = null;
-
+        Integer lineNumber = 1;
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -221,26 +274,26 @@ public class Grammar {
                     continue;
                 String[] parseLine = line.split("-");
                 String left = parseLine[0].strip();
-                if (startSymbol == null) {
+                if (startSymbol == null)
                     startSymbol = left;
-                }
                 nonTerminals.add(left);
-                List<List<String>> productions = productionRules.getOrDefault(left, new ArrayList<>());
+                List<List<String>> productions = prodRulesMap.getOrDefault(left, new ArrayList<>());
                 String[] rightProductionSide = parseLine[1].strip().split(" ");
                 productions.add(List.of(rightProductionSide));
-                productionRules.put(left, productions);
+                prodRulesMap.put(left, productions);
+
+                prodRules.add(new ProductionRule(lineNumber, left, List.of(rightProductionSide)));
 
                 terminals.addAll(List.of(rightProductionSide));
+                lineNumber++;
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         // remove from terminals the symbols which appear in non-terminals
-        for (String nonTerminal : nonTerminals) {
+        for (String nonTerminal : nonTerminals)
             terminals.remove(nonTerminal);
-        }
 
-        return new Grammar(startSymbol, terminals, nonTerminals, productionRules);
+        return new Grammar(startSymbol, terminals, nonTerminals, prodRulesMap, prodRules);
     }
-
 }

@@ -3,6 +3,11 @@ import java.util.*;
 public class ParsingTable {
     Map<Integer, Map<String, Action>> transitions = new HashMap<>();
 
+
+
+    public Action getActionForStateAndAtom(Integer currentState, String atom) {
+        return transitions.get(currentState).get(atom);
+    }
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

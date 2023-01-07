@@ -5,6 +5,8 @@ import java.util.*;
 
 public class Grammar {
     public final static String epsilon = "#";
+    public final static String DOLLAR = "$";
+
     String startSymbol;
     Set<String> terminals;
     Set<String> nonTerminals;
@@ -13,6 +15,8 @@ public class Grammar {
     Map<String, Set<String>> first = new HashMap<>();
     ParsingTree tree = new ParsingTree();
     ParsingTable table = new ParsingTable();
+
+    Stack<Integer> usedRules = new Stack<>();
 
     public Grammar(String startSymbol, Set<String> terminals, Set<String> nonTerminals,
                    Map<String, List<List<String>>> productionRulesMap, List<ProductionRule> productionRules) {
@@ -38,8 +42,21 @@ public class Grammar {
             for (DotProductionRule rule : node.items) {
                 if (rule.dotPosition < rule.to.size()) {
                     String dotTerm = rule.to.get(rule.dotPosition);
-                    if (dotTerm.equals(epsilon))
+                    if (dotTerm.equals(epsilon)) {
+                        int prodRuleNumber = -1;
+                        for (ProductionRule pr : productionRules)
+                            if (rule.sameAs(pr)) {
+                                prodRuleNumber = pr.number;
+                                break;
+                            }
+                        action = new Action(ActionType.REDUCE, prodRuleNumber);
+                        for (String term : rule.lookAhead) {
+                            if (table.transitions.get(node.number).containsKey(term))
+                                throw new RuntimeException("Conflict in table");
+                            table.transitions.get(node.number).put(term, action);
+                        }
                         continue;
+                    }
                     if (table.transitions.get(node.number).containsKey(dotTerm))
                         throw new RuntimeException("Conflict in table");
                     int toNodeNumber = tree.links.get(node.number).get(dotTerm).number;
@@ -79,9 +96,9 @@ public class Grammar {
 
     private void generateParsingTree() {
         tree.nodes.put(0, new Node());
-        first.put("$", Set.of("$"));
+        first.put(DOLLAR, Set.of(DOLLAR));
         tree.nodes.get(0).items.add(new DotProductionRule("S'",
-                List.of(startSymbol), 0, Set.of("$")));
+                List.of(startSymbol), 0, Set.of(DOLLAR)));
         tree.nodes.get(0).number = 0;
         closure(tree.nodes.get(0));
         Set<Integer> newNodeNumbers = goTo(tree.nodes.get(0));
@@ -295,5 +312,59 @@ public class Grammar {
             terminals.remove(nonTerminal);
 
         return new Grammar(startSymbol, terminals, nonTerminals, prodRulesMap, prodRules);
+    }
+
+
+    boolean isValid(String[] inputSeq) {
+        inputSeq = addDollarToInputSeq(inputSeq);
+        Stack<String> leftStack = new Stack<>();
+        leftStack.add(DOLLAR);
+        leftStack.add("0");
+        for (int i = 0; i < inputSeq.length; i++) {
+            Action action = table.getActionForStateAndAtom(Integer.valueOf(leftStack.peek()), inputSeq[i]);
+            if (action == null) {
+                return false;
+            }
+            switch (action.actionType) {
+                case SHIFT -> {
+                    leftStack.add(inputSeq[i]);
+                    leftStack.add(action.number.toString());
+                }
+                case REDUCE -> {
+                    ProductionRule productionRule = productionRules.get(action.number - 1);
+                    List<String> to = productionRule.to;
+                    // pop from stack unitil popped = productionRule.to
+                    if (!to.contains(epsilon)) {
+                        for (int j = 0; j < to.size() * 2; j++) {
+                            leftStack.pop();
+                        }
+                    }
+                    String previousState = leftStack.peek();
+                    leftStack.add(productionRule.from);
+                    Action actionNew = table.getActionForStateAndAtom(Integer.valueOf(previousState), leftStack.peek());
+                    leftStack.add(actionNew.number.toString());
+                    usedRules.add(action.number);
+                    i--;
+                }
+                case ACCEPT -> {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private String[] addDollarToInputSeq(String[] inputSeq) {
+        String[] newInputSeq = new String[inputSeq.length + 1];
+        System.arraycopy(inputSeq, 0, newInputSeq, 0, inputSeq.length);
+        newInputSeq[inputSeq.length] = DOLLAR;
+        return newInputSeq;
+    }
+
+    public void printUsedRules() {
+        System.out.print("Rules: ");
+        while (!usedRules.isEmpty()) {
+            System.out.print(usedRules.pop() + " ");
+        }
     }
 }

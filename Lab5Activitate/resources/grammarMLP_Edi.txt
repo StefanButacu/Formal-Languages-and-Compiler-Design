@@ -5,7 +5,7 @@ instr - atribuire
 decl - tip ID ;
 tip - int
 atribuire - ID = expr ;
-expr - operand
+expr - ID operatie CONST
 operand - ID
 operand - CONST
 CONST - CONSTINT

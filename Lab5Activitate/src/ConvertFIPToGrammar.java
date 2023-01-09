@@ -7,19 +7,16 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ConvertFIPToGrammar {
-
     public static final List<String> lexicalAtoms = Arrays.asList(
-        "ID", "CONSTINT", "CONSTREAL", "CONSTTEXT", "int", "double", "string", "struct",
-                "Console.WriteLine", "Console.ReadLine",
-                "+", "-", "*", "/", "=", "<", ">", "<=", ">=", "==", "!=", "true", "false", "||", "&&",
-                "if", "else", "while", ";", ",", "(", ")", "{", "}")
-    ;
-
+            "ID", "CONSTINT", "CONSTREAL", "CONSTTEXT", "int", "double", "string", "struct",
+            "Console.WriteLine", "Console.ReadLine",
+            "+", "-", "*", "/", "=", "<", ">", "<=", ">=", "==", "!=", "true", "false", "||", "&&",
+            "if", "else", "while", ";", ",", "(", ")", "{", "}");
 
     public static void main(String[] args) {
         List<String> listInputStrings = new ArrayList<>();
         String FIP_NAME = "Lab5Activitate\\resources\\FIP.txt";
-        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(FIP_NAME))){
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(FIP_NAME))) {
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 String[] tokens = line.split(" ");
@@ -34,12 +31,14 @@ public class ConvertFIPToGrammar {
             throw new RuntimeException(e);
         }
 
-        String[] inputArray = new String [listInputStrings.size()];
+        String[] inputArray = new String[listInputStrings.size()];
         //Converting List to Array
         listInputStrings.toArray(inputArray);
 
         Grammar grammar = Grammar.readFromFile("Lab5Activitate\\resources\\grammarMLP_Edi.txt");
+        grammar.generateParsingTable();
+        System.out.println(grammar.tree);
+        System.out.println(grammar.table);
         System.out.println(grammar.isValid(inputArray));
-
     }
 }

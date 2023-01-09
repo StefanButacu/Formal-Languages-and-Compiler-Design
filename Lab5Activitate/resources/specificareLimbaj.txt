@@ -1,0 +1,109 @@
+double a;
+string c;
+struct Point {
+    double x, y;
+}
+a = 2 + 3;
+Console.ReadLine(c);
+if (c == "a") {
+    Console.WriteLine("you wrote a");
+}
+else {
+    Console.WriteLine("you wrote " + c);
+}
+while (a > 0) {
+    Console.WriteLine(a + "\n");
+    a = a - 1;
+}
+
+1.
+<program> -> <lista instr>
+<lista instr> -> <instr> | <instr> <lista instr>
+<instr> -> <decl> | <decl struct> | <atribuire>
+            | <instr cond> | <instr cicl> | <instr io>
+
+<instr io> -> <instr read>; | <instr write>;
+<instr read> -> 'Console.ReadLine'(<ID>)                                 
+<instr write> -> 'Console.WriteLine'(<text>)
+<text> -> <text part> | <text part> '+' <text>
+<text part> -> <ID> | <ID>.<ID> | <const>
+
+<decl> -> <tip> <lista ID>;
+<tip> -> 'double' | 'string' | <NUME_STRUCT>
+<lista ID> -> <ID>, <lista ID> | <ID>
+
+<decl struct> -> 'struct' <NUME_STRUCT> { <lista decl> }
+<lista decl> -> <decl> | <decl> <lista decl>
+
+<accesare_camp_struct> -> <ID>'.'<ID>
+
+<atribuire> -> <ID> = <expr>; | <ID>'.'<ID> = <expr>;
+<expr> -> <operand> | <operand> <operatie> <expr>
+<operand> -> <ID> | <CONST>
+<operatie> -> '+' | '-' | '*' | '/'
+
+<ID> -> ^[a-z][a-zA-Z]*$
+<NUME_STRUCT> -> ^[A-Z][a-zA-Z]*$
+<CONST> -> ^[+-]?([0-9]*)(\.[0-9]+)?$
+<CONST> -> ^"[^"]*"$
+
+<instr cond> -> 'if' (<lista cond>) { <lista instr> } |
+                'if' (<lista cond>) { <lista instr> } 'else' { <lista instr> }
+<lista cond> -> <cond> | <cond> <op logic> <lista cond>
+<cond> -> <expr> <rel> <expr> | <val logica>
+<rel> -> '<' | '>' | '==' | '!=' | '<=' | '>='
+<val logica> -> 'true' | 'false'
+<op logic> -> '||' | '&&'
+
+<instr cicl> -> 'while' (<lista cond>) { <lista instr> }
+
+2.1 Perimetrul si aria cercului de o raza data
+
+entry {
+    double r, P, A;
+    Console.ReadLine(r);
+    P = 2 * 3.14 * r;
+    A = 3.14 * r * r;
+}
+
+2.2 CMMDC a 2 nr naturale
+
+entry {
+    double a, b, cmmdc;
+    Console.ReadLine(a);
+    Console.ReadLine(b);
+    while (a != b) {
+        if (a > b) {
+            a = a - b;
+        } else {
+            b = b - a;
+        }
+    }
+    cmmdc = a;
+}
+
+2.3 Suma a n numere citite de la tastatura
+
+double a, n, s;
+Console.ReadLine(n);
+s = 0;
+while (n > 0) {
+	Console.ReadLine(a);
+	s = s + a;
+	n = n - 1;
+}
+
+
+3. Program cu erori care sunt erori si in C#
+
+double a;
+Console.ReadLine(a)          --> lipseste ';' dupa instructiune
+while a > 0 {     --> conditia nu este intre paranteze
+	a = a - 1;
+}
+
+Program cu erori care nu sunt erori in C#
+
+double a = 2;     --> nu se poate initializa la declarare
+Console.WriteLine(a);            
+a--;              --> nu se poate decrementa in felul acesta

@@ -1,1 +1,9 @@
-int a = 5;
+int ff;
+string c;
+a = 2;
+if (5>2) {
+    a = 5;
+}
+while (2>3) {
+    b = 3;
+}

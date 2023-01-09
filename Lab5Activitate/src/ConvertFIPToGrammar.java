@@ -35,7 +35,7 @@ public class ConvertFIPToGrammar {
         //Converting List to Array
         listInputStrings.toArray(inputArray);
 
-        Grammar grammar = Grammar.readFromFile("Lab5Activitate\\resources\\grammarMLP_Edi.txt");
+        Grammar grammar = Grammar.readFromFile("Lab5Activitate\\resources\\grammarMLP_Edi_new.txt");
         grammar.generateParsingTable();
         System.out.println(grammar.tree);
         System.out.println(grammar.table);

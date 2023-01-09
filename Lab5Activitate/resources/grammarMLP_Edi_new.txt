@@ -1,0 +1,50 @@
+program - lista_instr
+lista_instr - instr lista_instr
+lista_instr - #
+instr - decl
+instr - decl_struct
+instr - atribuire
+instr - instr_cond
+instr - instr_cicl
+instr - instr_io
+instr_io - instr_read
+instr_io - instr_write
+instr_read - Console.ReadLine ( ID )
+instr_write - Console.WriteLine ( text )
+text - text_part + text
+text - #
+text_part - ID
+text_part - CONST
+decl - tip ID ;
+tip - int
+tip - double
+tip - string
+tip - NUME_STRUCT
+lista_decl - decl lista_decl
+lista_decl - #
+atribuire - ID = expr ;
+expr - operand
+operand - ID
+operand - CONST
+CONST - CONSTINT
+CONST - CONSTREAL
+CONST - CONSTTEXT
+operatie - +
+operatie - -
+operatie - *
+operatie - /
+instr_cond - if ( lista_cond ) { lista_instr }
+lista_cond - cond
+cond - expr rel expr
+cond - val_logica
+rel - <
+rel - >
+rel - ==
+rel - !=
+rel - <=
+rel - >=
+val_logica - true
+val_logica - false
+op_logic - ||
+op_logic - &&
+instr_cicl - while ( lista_cond ) { lista_instr }

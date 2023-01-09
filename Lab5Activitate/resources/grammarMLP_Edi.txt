@@ -15,7 +15,7 @@ text - text_part
 text - text_part + text
 text_part - ID
 text_part - ID . ID
-text_part - const
+text_part - CONST
 decl - tip lista ID ;
 tip - double
 tip - string
